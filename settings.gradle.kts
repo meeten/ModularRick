@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "RickAndMortyApp"
 include(":app")
+include(":network")
