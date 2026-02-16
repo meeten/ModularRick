@@ -23,3 +23,4 @@ rootProject.name = "RickAndMortyApp"
 include(":app")
 include(":network")
 include(":core:network")
+include(":core:model")
