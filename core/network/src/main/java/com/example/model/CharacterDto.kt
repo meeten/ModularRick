@@ -16,5 +16,11 @@ data class CharacterDto(
     @SerializedName("type")
     val type: String,
     @SerializedName("image")
-    val imageUrl: String
+    val imageUrl: String,
+    @SerializedName("episode")
+    val episode: List<String>,
+    @SerializedName("location")
+    val locationDto: LocationDto,
+    @SerializedName("origin")
+    val originDto: OriginDto
 )

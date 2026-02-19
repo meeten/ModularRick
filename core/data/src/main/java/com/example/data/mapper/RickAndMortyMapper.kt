@@ -14,7 +14,11 @@ class RickAndMortyMapper() {
             species = response.species,
             status = response.status.defineCharacterStatus(),
             type = response.type,
-            imageUrl = response.imageUrl
+            imageUrl = response.imageUrl,
+            location = response.locationDto.name,
+            origin = response.originDto.name,
+            episode = response.episode,
+            episodeCount = response.episode.size
         )
     }
 
