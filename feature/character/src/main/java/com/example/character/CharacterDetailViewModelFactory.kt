@@ -1,12 +1,12 @@
-package com.example.rickandmortyapp
+package com.example.character
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class CharacterViewModelFactory(
+class CharacterDetailViewModelFactory(
     private val id: Int
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return CharacterViewModel(id) as T
+        return CharacterDetailViewModel(id) as T
     }
 }

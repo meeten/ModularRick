@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="location_info">Last know location</string>
+    <string name="species_info">Species</string>
+    <string name="gender_info">Gender</string>
+    <string name="origin_info">Origin</string>
+    <string name="episode_count_info">Episode count</string>
+</resources>
