@@ -38,12 +38,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:data"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:model"))
 
-    //viewModelCompose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.10.0")
+    implementation(project(":core:designsystem"))
+    implementation(project(":feature:character"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
