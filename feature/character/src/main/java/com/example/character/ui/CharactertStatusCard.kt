@@ -7,8 +7,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.character.R
 import com.example.model.CharacterStatus
 
 @Composable
@@ -24,7 +26,7 @@ fun CharacterStatusCard(
         )
     ) {
         Text(
-            text = "Status: ${characterStatus.type}",
+            text = stringResource(R.string.status, characterStatus.type),
             fontSize = 16.sp,
             color = Color.White,
             modifier = Modifier.padding(8.dp)

@@ -5,4 +5,6 @@
     <string name="gender_info">Gender</string>
     <string name="origin_info">Origin</string>
     <string name="episode_count_info">Episode count</string>
+    <string name="view_all_episodes">View all episodes</string>
+    <string name="status">Status: %1$s</string>
 </resources>

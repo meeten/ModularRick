@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.example.character.R
 import com.example.character.models.FieldInfo
 import com.example.model.Character
 
@@ -87,7 +88,7 @@ fun CharacterItemContent(
             )
         ) {
             Text(
-                text = "View all episodes",
+                text = stringResource(R.string.view_all_episodes),
                 color = MaterialTheme.colorScheme.onPrimary,
                 textAlign = TextAlign.Center
             )
