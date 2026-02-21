@@ -3,20 +3,22 @@ package com.example.character.ui
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.character.R
+import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
 
 @Composable
 fun CharacterStatusCard(
     characterStatus: CharacterStatus,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier,
@@ -27,9 +29,51 @@ fun CharacterStatusCard(
     ) {
         Text(
             text = stringResource(R.string.status, characterStatus.type),
-            fontSize = 16.sp,
-            color = Color.White,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.padding(8.dp)
+        )
+    }
+}
+
+@Preview(
+    name = "Alive status",
+    backgroundColor = 0xFF000000,
+    showBackground = true
+)
+@Composable
+private fun CharacterStatusAliveCardPreview() {
+    RickAndMortyAppTheme {
+        CharacterStatusCard(
+            characterStatus = CharacterStatus.Alive
+        )
+    }
+}
+
+@Preview(
+    name = "Dead status",
+    backgroundColor = 0xFF000000,
+    showBackground = true
+)
+@Composable
+private fun CharacterStatusDeadCardPreview() {
+    RickAndMortyAppTheme {
+        CharacterStatusCard(
+            characterStatus = CharacterStatus.Dead
+        )
+    }
+}
+
+@Preview(
+    name = "Unknown status",
+    backgroundColor = 0xFF000000,
+    showBackground = true
+)
+@Composable
+private fun CharacterStatusUnknownCardPreview() {
+    RickAndMortyAppTheme {
+        CharacterStatusCard(
+            characterStatus = CharacterStatus.Unknown
         )
     }
 }
