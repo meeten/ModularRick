@@ -4,19 +4,41 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.designsystem.theme.RickAndMortyAppTheme
 
 @Composable
-fun TitleInfoLayout(title: String, info: String) {
-    Column {
+fun TitleInfoLayout(
+    title: String,
+    info: String,
+    modifier: Modifier
+) {
+    Column(modifier = modifier) {
         Text(
             text = title,
-            fontSize = 12.sp,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onPrimary
         )
         Text(
             text = info,
-            fontSize = 25.sp
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+@Preview(
+    backgroundColor = 0xFF000000,
+    showBackground = true
+)
+@Composable
+private fun TitleInfoLayoutPreview() {
+    RickAndMortyAppTheme {
+        TitleInfoLayout(
+            title = "Rick Sanchez",
+            info = "Alive - Human",
+            modifier = Modifier
         )
     }
 }

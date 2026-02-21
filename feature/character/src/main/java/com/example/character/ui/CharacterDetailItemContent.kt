@@ -68,7 +68,8 @@ fun CharacterItemContent(
             fieldsInfo.forEach { fieldInfo ->
                 TitleInfoLayout(
                     title = stringResource(fieldInfo.title),
-                    info = fieldInfo.info
+                    info = fieldInfo.info,
+                    modifier = Modifier
                 )
             }
         }
