@@ -15,10 +15,12 @@ import com.example.ui.Loading
 
 @Composable
 fun CharacterDetailScreen(
-    modifier: Modifier
+    characterId: Int,
+    modifier: Modifier = Modifier,
+    onViewAllEpisodesClick: (Int) -> Unit,
 ) {
     val viewModel: CharacterDetailViewModel = viewModel(
-        factory = CharacterDetailViewModelFactory(320)
+        factory = CharacterDetailViewModelFactory(characterId)
     )
     val uiState = viewModel.uiState.collectAsState(
         CharacterDetailScreenState.Initial
@@ -37,14 +39,14 @@ fun CharacterDetailScreen(
 
                 is CharacterDetailScreenState.CharacterDetail -> {
                     CharacterItemContent(
+                        characterId = characterId,
                         status = currentState.character.status,
                         name = currentState.character.name,
                         imageUrl = currentState.character.imageUrl,
                         fieldsInfo = currentState.fieldsInfo,
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-
-                    }
+                        modifier = Modifier.padding(8.dp),
+                        onViewAllEpisodesClick = onViewAllEpisodesClick
+                    )
                 }
 
                 is CharacterDetailScreenState.Error -> {

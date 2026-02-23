@@ -27,13 +27,14 @@ import com.example.model.CharacterStatus
 
 @Composable
 fun CharacterItemContent(
+    characterId: Int,
     status: CharacterStatus,
     name: String,
     imageUrl: String,
     fieldsInfo: List<FieldInfo>,
     modifier: Modifier = Modifier,
     imagePreview: Int? = null,
-    onViewAllEpisodesClick: () -> Unit,
+    onViewAllEpisodesClick: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -80,7 +81,7 @@ fun CharacterItemContent(
                 .fillMaxWidth()
                 .padding(22.dp),
         ) {
-            onViewAllEpisodesClick()
+            onViewAllEpisodesClick(characterId)
         }
     }
 }
@@ -111,6 +112,7 @@ private fun CharacterItemContentWithAliveStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
             CharacterItemContent(
+                characterId = 0,
                 status = CharacterStatus.Alive,
                 name = "Rick Sanchez",
                 imageUrl = "",
@@ -132,6 +134,7 @@ private fun CharacterItemContentWithDeadStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
             CharacterItemContent(
+                characterId = 0,
                 status = CharacterStatus.Dead,
                 name = "Shnoopy Bloopers",
                 imageUrl = "",
@@ -153,6 +156,7 @@ private fun CharacterItemContentWithUnknownStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
             CharacterItemContent(
+                characterId = 0,
                 status = CharacterStatus.Unknown,
                 name = "Bootleg Portal Chemist Rick",
                 imageUrl = "",
