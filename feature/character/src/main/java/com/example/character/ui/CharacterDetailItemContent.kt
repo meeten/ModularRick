@@ -88,15 +88,15 @@ fun CharacterItemContent(
 private val modifierPreview = Modifier.padding(8.dp)
 private val fieldInfoPreview = listOf(
     FieldInfo(
-        title = R.string.location_info,
+        title = R.string.location,
         info = "location"
     ),
     FieldInfo(
-        title = R.string.species_info,
+        title = R.string.species,
         info = "species"
     ),
     FieldInfo(
-        title = R.string.gender_info,
+        title = R.string.gender,
         info = "gender"
     )
 )
