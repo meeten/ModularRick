@@ -10,4 +10,8 @@ sealed class CharacterDetailScreenState {
         val character: com.example.model.Character,
         val fieldsInfo: List<FieldInfo>
     ) : CharacterDetailScreenState()
+
+    data class Error(
+        val errorDescription: String
+    ) : CharacterDetailScreenState()
 }

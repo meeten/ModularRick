@@ -2,11 +2,16 @@ package com.example.data.repository
 
 import com.example.data.mapper.RickAndMortyMapper
 import com.example.domain.repository.RickAndMortyRepository
+import com.example.model.Character
+import com.example.model.OperationResult
 import com.example.network.ApiFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.stateIn
 
 object RickAndMortyRepositoryImpl : RickAndMortyRepository {
@@ -20,9 +25,15 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
     override fun getCharacter(id: Int) = flow {
         val response = apiService.getCharacter(id)
         emit(rickAndMortyMapper.mapResponseToCharacter(response))
+    }.map {
+        OperationResult.Success(data = it) as OperationResult<Character>
+    }.retry(2) {
+        true
+    }.catch {
+        emit(OperationResult.Failure(it))
     }.stateIn(
         scope = coroutineScope,
         started = SharingStarted.Lazily,
-        initialValue = null
+        initialValue = OperationResult.Success<Character>(null)
     )
 }

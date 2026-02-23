@@ -1,10 +1,20 @@
 package com.example.character.extension
 
 import com.example.character.R
+import com.example.character.models.CharacterDetailScreenState
 import com.example.character.models.FieldInfo
 import com.example.model.Character
 
-fun Character.getFieldsInfo(): List<FieldInfo> {
+internal fun Character?.asScreenState(): CharacterDetailScreenState {
+    return this?.let { character ->
+        CharacterDetailScreenState.CharacterDetail(
+            character = character,
+            fieldsInfo = character.getFieldsInfo()
+        )
+    } ?: CharacterDetailScreenState.Initial
+}
+
+internal fun Character.getFieldsInfo(): List<FieldInfo> {
     return listOf(
         FieldInfo(
             title = R.string.location_info,
