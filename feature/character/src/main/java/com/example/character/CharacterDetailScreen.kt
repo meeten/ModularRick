@@ -17,7 +17,7 @@ fun CharacterDetailScreen(
     modifier: Modifier
 ) {
     val viewModel: CharacterDetailViewModel = viewModel(
-        factory = CharacterDetailViewModelFactory(2)
+        factory = CharacterDetailViewModelFactory(320)
     )
     val uiState = viewModel.uiState.collectAsState(
         CharacterDetailScreenState.Initial
@@ -36,10 +36,14 @@ fun CharacterDetailScreen(
 
                 is CharacterDetailScreenState.CharacterDetail -> {
                     CharacterItemContent(
-                        character = currentState.character,
+                        status = currentState.character.status,
+                        name = currentState.character.name,
+                        imageUrl = currentState.character.imageUrl,
                         fieldsInfo = currentState.fieldsInfo,
                         modifier = Modifier.padding(8.dp)
-                    )
+                    ) {
+
+                    }
                 }
             }
         }
