@@ -1,5 +1,6 @@
 package com.example.character.ui
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,11 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.example.character.R
 import com.example.character.models.FieldInfo
 import com.example.designsystem.theme.RickAndMortyAppTheme
@@ -33,7 +32,7 @@ fun CharacterItemContent(
     imageUrl: String,
     fieldsInfo: List<FieldInfo>,
     modifier: Modifier = Modifier,
-    imagePreview: Int? = null,
+    @DrawableRes imagePreview: Int? = null,
     onViewAllEpisodesClick: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -55,13 +54,12 @@ fun CharacterItemContent(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        AsyncImage(
-            model = imagePreview ?: imageUrl,
-            contentDescription = null,
+        CharacterImage(
+            imageUrl = imageUrl,
             modifier = Modifier
                 .height(400.dp)
                 .clip(shape = RoundedCornerShape(40.dp)),
-            contentScale = ContentScale.FillBounds
+            imagePreview = imagePreview
         )
 
         Spacer(modifier = Modifier.height(15.dp))
