@@ -32,7 +32,7 @@ internal fun CharacterItemContent(
     fieldsInfo: List<FieldInfo>,
     modifier: Modifier = Modifier,
     @DrawableRes imagePreview: Int? = null,
-    onViewAllEpisodesClick: (Int) -> Unit,
+    onViewAllEpisodesClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -77,9 +77,8 @@ internal fun CharacterItemContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(22.dp),
-        ) {
-            onViewAllEpisodesClick(characterId)
-        }
+            onClick = onViewAllEpisodesClick
+        )
     }
 }
 

@@ -4,12 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.model.Character
 
 class NavigationState(val navController: NavHostController) {
 
-    fun navigateToEpisodesScreen(characterId: Int) {
+    fun navigateToEpisodesScreen(character: Character) {
         navController.navigate(
-            Screen.EpisodesScreen.createRouteWithArgs(characterId)
+            Screen.EpisodesScreen.createRouteWithArgs(character)
         )
     }
 }

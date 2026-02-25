@@ -40,10 +40,14 @@ android {
 dependencies {
 
     implementation(project(":core:designsystem"))
+    implementation(project(":core:model"))
     implementation(project(":feature:character"))
 
     //navigation-compose
     implementation("androidx.navigation:navigation-compose:2.9.7")
+
+    //gson
+    implementation("com.google.code.gson:gson:2.13.2")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

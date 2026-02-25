@@ -26,17 +26,17 @@ class MainActivity : ComponentActivity() {
                 AppNavGraph(
                     navController = navigationState.navController,
                     detailCharacterScreenContent = {
-                        CharacterDetailScreen(characterId = 235) {
-                            navigationState.navigateToEpisodesScreen(it)
+                        CharacterDetailScreen(characterId = 235) { character ->
+                            navigationState.navigateToEpisodesScreen(character)
                         }
                     },
-                    episodesScreenContent = {
+                    episodesScreenContent = { character ->
                         Column(
                             modifier = Modifier.fillMaxSize(),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(text = "Character id: $it", fontSize = 24.sp)
+                            Text(text = "Character id: ${character.id}", fontSize = 24.sp)
                         }
                     }
                 )

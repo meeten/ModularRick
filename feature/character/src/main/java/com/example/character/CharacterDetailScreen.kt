@@ -11,13 +11,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.character.models.CharacterDetailScreenState
 import com.example.character.ui.CharacterItemContent
+import com.example.model.Character
 import com.example.ui.Loading
 
 @Composable
 fun CharacterDetailScreen(
     characterId: Int,
     modifier: Modifier = Modifier,
-    onViewAllEpisodesClick: (Int) -> Unit,
+    onViewAllEpisodesClick: (Character) -> Unit,
 ) {
     val viewModel: CharacterDetailViewModel = viewModel(
         factory = CharacterDetailViewModelFactory(characterId)
@@ -39,13 +40,14 @@ fun CharacterDetailScreen(
 
                 is CharacterDetailScreenState.CharacterDetail -> {
                     CharacterItemContent(
-                        characterId = characterId,
                         status = currentState.character.status,
                         name = currentState.character.name,
                         imageUrl = currentState.character.imageUrl,
                         fieldsInfo = currentState.fieldsInfo,
                         modifier = Modifier.padding(8.dp),
-                        onViewAllEpisodesClick = onViewAllEpisodesClick
+                        onViewAllEpisodesClick = {
+                            onViewAllEpisodesClick(currentState.character)
+                        }
                     )
                 }
 
