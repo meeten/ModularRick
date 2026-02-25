@@ -25,15 +25,15 @@ class RickAndMortyMapper() {
     private fun String.defineCharacterStatus(): CharacterStatus {
         return when (this.lowercase()) {
             "alive" -> {
-                CharacterStatus.Alive
+                CharacterStatus.ALIVE
             }
 
             "live" -> {
-                CharacterStatus.Dead
+                CharacterStatus.DEAD
             }
 
             else -> {
-                CharacterStatus.Unknown
+                CharacterStatus.UNKNOWN
             }
         }
     }

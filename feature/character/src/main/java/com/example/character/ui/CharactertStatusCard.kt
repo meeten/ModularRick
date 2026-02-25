@@ -45,7 +45,7 @@ internal fun CharacterStatusCard(
 private fun CharacterStatusAliveCardPreview() {
     RickAndMortyAppTheme {
         CharacterStatusCard(
-            characterStatus = CharacterStatus.Alive
+            characterStatus = CharacterStatus.ALIVE
         )
     }
 }
@@ -59,7 +59,7 @@ private fun CharacterStatusAliveCardPreview() {
 private fun CharacterStatusDeadCardPreview() {
     RickAndMortyAppTheme {
         CharacterStatusCard(
-            characterStatus = CharacterStatus.Dead
+            characterStatus = CharacterStatus.DEAD
         )
     }
 }
@@ -73,7 +73,7 @@ private fun CharacterStatusDeadCardPreview() {
 private fun CharacterStatusUnknownCardPreview() {
     RickAndMortyAppTheme {
         CharacterStatusCard(
-            characterStatus = CharacterStatus.Unknown
+            characterStatus = CharacterStatus.UNKNOWN
         )
     }
 }

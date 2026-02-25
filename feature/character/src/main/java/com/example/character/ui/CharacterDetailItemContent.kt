@@ -109,8 +109,7 @@ private fun CharacterItemContentWithAliveStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
             CharacterItemContent(
-                characterId = 0,
-                status = CharacterStatus.Alive,
+                status = CharacterStatus.ALIVE,
                 name = "Rick Sanchez",
                 imageUrl = "",
                 imagePreview = R.drawable.img_preview_1,
@@ -131,8 +130,7 @@ private fun CharacterItemContentWithDeadStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
             CharacterItemContent(
-                characterId = 0,
-                status = CharacterStatus.Dead,
+                status = CharacterStatus.DEAD,
                 name = "Shnoopy Bloopers",
                 imageUrl = "",
                 imagePreview = R.drawable.img_preview_2,
@@ -153,8 +151,7 @@ private fun CharacterItemContentWithUnknownStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
             CharacterItemContent(
-                characterId = 0,
-                status = CharacterStatus.Unknown,
+                status = CharacterStatus.UNKNOWN,
                 name = "Bootleg Portal Chemist Rick",
                 imageUrl = "",
                 imagePreview = R.drawable.img_preview_3,
