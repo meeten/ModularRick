@@ -22,9 +22,11 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
+    private val _charactersCache = mutableMapOf<Int, Character>()
     override fun getCharacter(id: Int) = flow {
-        val response = apiService.getCharacter(id)
-        emit(rickAndMortyMapper.mapResponseToCharacter(response))
+        val character = _charactersCache[id] ?: rickAndMortyMapper
+            .mapResponseToCharacter((apiService.getCharacter(id)))
+        emit(character)
     }.map {
         OperationResult.Success(data = it) as OperationResult<Character>
     }.retry(2) {
