@@ -1,22 +1,19 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "com.example.rickandmortyapp"
+    namespace = "com.example.episodes"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.rickandmortyapp"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -32,23 +29,26 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
 
-    implementation(project(":core:designsystem"))
+    //TODO: удалить после внедрения инжектора зависимостей
+    implementation(project(":core:data"))
+
+    implementation(project(":core:domain"))
     implementation(project(":core:model"))
-    implementation(project(":feature:character"))
-    implementation(project(":feature:episodes"))
+    implementation(project(":core:common"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:designsystem"))
 
-    //navigation-compose
-    implementation("androidx.navigation:navigation-compose:2.9.7")
 
-    //gson
-    implementation("com.google.code.gson:gson:2.13.2")
+    //viewModelCompose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.10.0")
+
+    //coil
+    implementation("io.coil-kt.coil3:coil-compose:3.3.0")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
