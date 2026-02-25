@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.designsystem.theme.RickAndMortyAppTheme
 
 @Composable
-fun TitleInfoLayout(
+internal fun TitleInfoLayout(
     title: String,
     info: String,
     modifier: Modifier

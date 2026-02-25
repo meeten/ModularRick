@@ -9,7 +9,7 @@ import com.example.model.OperationResult
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 
-class CharacterDetailViewModel(
+internal class CharacterDetailViewModel(
     id: Int
 ) : ViewModel() {
 

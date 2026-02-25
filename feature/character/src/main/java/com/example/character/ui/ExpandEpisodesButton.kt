@@ -15,7 +15,7 @@ import com.example.character.R
 import com.example.designsystem.theme.RickAndMortyAppTheme
 
 @Composable
-fun ExpandEpisodesButton(
+internal fun ExpandEpisodesButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {

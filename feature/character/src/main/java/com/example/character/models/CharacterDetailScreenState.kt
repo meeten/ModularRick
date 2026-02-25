@@ -1,6 +1,6 @@
 package com.example.character.models
 
-sealed class CharacterDetailScreenState {
+internal sealed class CharacterDetailScreenState {
 
     object Initial : CharacterDetailScreenState()
 

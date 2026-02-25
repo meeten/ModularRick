@@ -15,7 +15,7 @@ import coil3.compose.AsyncImagePainter
 import com.example.ui.Loading
 
 @Composable
-fun CharacterImage(
+internal fun CharacterImage(
     imageUrl: String,
     modifier: Modifier = Modifier,
     @DrawableRes imagePreview: Int? = null

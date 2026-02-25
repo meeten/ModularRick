@@ -16,7 +16,7 @@ import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
 
 @Composable
-fun CharacterStatusCard(
+internal fun CharacterStatusCard(
     characterStatus: CharacterStatus,
     modifier: Modifier = Modifier
 ) {

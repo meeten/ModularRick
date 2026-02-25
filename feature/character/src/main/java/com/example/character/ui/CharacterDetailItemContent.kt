@@ -25,8 +25,7 @@ import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
 
 @Composable
-fun CharacterItemContent(
-    characterId: Int,
+internal fun CharacterItemContent(
     status: CharacterStatus,
     name: String,
     imageUrl: String,
