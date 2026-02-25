@@ -3,6 +3,8 @@ package com.example.data.mapper
 import com.example.model.Character
 import com.example.model.CharacterDto
 import com.example.model.CharacterStatus
+import com.example.model.Episode
+import com.example.model.EpisodesDto
 
 class RickAndMortyMapper() {
 
@@ -19,6 +21,16 @@ class RickAndMortyMapper() {
             origin = response.originDto.name,
             episode = response.episode,
             episodeCount = response.episode.size
+        )
+    }
+
+    fun mapResponseToEpisode(response: EpisodesDto): Episode {
+        return Episode(
+            id = response.id,
+            name = response.name,
+            airDate = response.airDate,
+            episode = response.episode,
+            characters = response.characters
         )
     }
 

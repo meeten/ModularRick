@@ -3,6 +3,7 @@ package com.example.data.repository
 import com.example.data.mapper.RickAndMortyMapper
 import com.example.domain.repository.RickAndMortyRepository
 import com.example.model.Character
+import com.example.model.Episode
 import com.example.model.OperationResult
 import com.example.network.ApiFactory
 import kotlinx.coroutines.CoroutineScope
@@ -37,5 +38,28 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
         scope = coroutineScope,
         started = SharingStarted.Lazily,
         initialValue = OperationResult.Success<Character>(null)
+    )
+
+    private val _episodes = mutableListOf<Episode>()
+    private val episodes
+        get() = _episodes.toList()
+
+    override fun getEpisodesByUrls(urls: List<String>) = flow {
+        urls.forEach { url ->
+            val response = apiService.getEpisodeByUrl(url)
+            val episode = rickAndMortyMapper.mapResponseToEpisode(response)
+            _episodes.add(episode)
+        }
+        emit(episodes)
+    }.map {
+        OperationResult.Success(it) as OperationResult<List<Episode>>
+    }.retry(2) {
+        true
+    }.catch {
+        emit(OperationResult.Failure(it))
+    }.stateIn(
+        scope = coroutineScope,
+        started = SharingStarted.Lazily,
+        initialValue = OperationResult.Success(episodes)
     )
 }
