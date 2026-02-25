@@ -35,7 +35,7 @@ fun CharacterDetailScreen(
                 CharacterDetailScreenState.Initial -> {}
 
                 CharacterDetailScreenState.Loading -> {
-                    Loading(modifier = Modifier)
+                    Loading()
                 }
 
                 is CharacterDetailScreenState.CharacterDetail -> {
