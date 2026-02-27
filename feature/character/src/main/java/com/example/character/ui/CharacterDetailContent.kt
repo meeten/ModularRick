@@ -25,7 +25,7 @@ import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
 
 @Composable
-internal fun CharacterItemContent(
+internal fun CharacterDetailContent(
     status: CharacterStatus,
     name: String,
     imageUrl: String,
@@ -104,10 +104,10 @@ private val fieldInfoPreview = listOf(
     showBackground = true
 )
 @Composable
-private fun CharacterItemContentWithAliveStatusPreview() {
+private fun CharacterDetailContentWithAliveStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
-            CharacterItemContent(
+            CharacterDetailContent(
                 status = CharacterStatus.ALIVE,
                 name = "Rick Sanchez",
                 imageUrl = "",
@@ -125,10 +125,10 @@ private fun CharacterItemContentWithAliveStatusPreview() {
     showBackground = true
 )
 @Composable
-private fun CharacterItemContentWithDeadStatusPreview() {
+private fun CharacterDetailContentWithDeadStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
-            CharacterItemContent(
+            CharacterDetailContent(
                 status = CharacterStatus.DEAD,
                 name = "Shnoopy Bloopers",
                 imageUrl = "",
@@ -146,10 +146,10 @@ private fun CharacterItemContentWithDeadStatusPreview() {
     showBackground = true
 )
 @Composable
-private fun CharacterItemContentWithUnknownStatusPreview() {
+private fun CharacterDetailContentWithUnknownStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
-            CharacterItemContent(
+            CharacterDetailContent(
                 status = CharacterStatus.UNKNOWN,
                 name = "Bootleg Portal Chemist Rick",
                 imageUrl = "",

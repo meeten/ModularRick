@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.character.models.CharacterDetailScreenState
-import com.example.character.ui.CharacterItemContent
+import com.example.character.ui.CharacterDetailContent
 import com.example.model.Character
 import com.example.ui.Loading
 
@@ -39,7 +39,7 @@ fun CharacterDetailScreen(
                 }
 
                 is CharacterDetailScreenState.CharacterDetail -> {
-                    CharacterItemContent(
+                    CharacterDetailContent(
                         status = currentState.character.status,
                         name = currentState.character.name,
                         imageUrl = currentState.character.imageUrl,
