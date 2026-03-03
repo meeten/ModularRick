@@ -1,7 +1,7 @@
 package com.example.network
 
 import com.example.model.CharacterDto
-import com.example.model.EpisodesDto
+import com.example.model.EpisodeDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Url

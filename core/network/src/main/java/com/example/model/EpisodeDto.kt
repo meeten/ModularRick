@@ -2,7 +2,7 @@ package com.example.model
 
 import com.google.gson.annotations.SerializedName
 
-data class EpisodesDto(
+data class EpisodeDto(
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")

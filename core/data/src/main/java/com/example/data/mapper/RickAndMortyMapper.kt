@@ -4,7 +4,7 @@ import com.example.model.Character
 import com.example.model.CharacterDto
 import com.example.model.CharacterStatus
 import com.example.model.Episode
-import com.example.model.EpisodesDto
+import com.example.model.EpisodeDto
 
 class RickAndMortyMapper() {
 
