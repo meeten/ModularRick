@@ -77,7 +77,7 @@ internal fun CharacterDetailContent(
     }
 }
 
-private val modifierPreview = Modifier.padding(8.dp)
+private val modifierPreview = Modifier.padding(16.dp)
 private val fieldInfoPreview = listOf(
     FieldInfo(
         title = R.string.location,

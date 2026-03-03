@@ -44,7 +44,7 @@ fun CharacterDetailScreen(
                         name = currentState.character.name,
                         imageUrl = currentState.character.imageUrl,
                         fieldsInfo = currentState.fieldsInfo,
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(16.dp),
                         onViewAllEpisodesClick = {
                             onViewAllEpisodesClick(currentState.character)
                         }
