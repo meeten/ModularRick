@@ -45,10 +45,6 @@ dependencies {
     //viewModelCompose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.10.0")
 
-    //coil
-    implementation("io.coil-kt.coil3:coil-compose:3.3.0")
-    implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

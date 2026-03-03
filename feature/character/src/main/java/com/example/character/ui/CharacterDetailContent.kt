@@ -23,6 +23,7 @@ import com.example.character.R
 import com.example.character.models.FieldInfo
 import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
+import com.example.ui.CharacterImage
 
 @Composable
 internal fun CharacterDetailContent(
@@ -55,9 +56,6 @@ internal fun CharacterDetailContent(
 
         CharacterImage(
             imageUrl = imageUrl,
-            modifier = Modifier
-                .height(400.dp)
-                .clip(shape = RoundedCornerShape(40.dp)),
             imagePreview = imagePreview
         )
 
