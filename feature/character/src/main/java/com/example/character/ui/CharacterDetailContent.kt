@@ -24,6 +24,7 @@ import com.example.character.models.FieldInfo
 import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
 import com.example.ui.CharacterImage
+import com.example.ui.CharacterNameText
 
 @Composable
 internal fun CharacterDetailContent(
@@ -46,11 +47,7 @@ internal fun CharacterDetailContent(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(
-            text = name,
-            style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onPrimary
-        )
+        CharacterNameText(characterName = name)
 
         Spacer(modifier = Modifier.height(10.dp))
 
