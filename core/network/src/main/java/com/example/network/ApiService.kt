@@ -4,17 +4,15 @@ import com.example.model.CharacterDto
 import com.example.model.EpisodeDto
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Url
 
 interface ApiService {
-
     @GET("character/{id}")
     suspend fun getCharacter(
         @Path("id") id: Int
     ): CharacterDto
 
-    @GET
-    suspend fun getEpisodeByUrl(
-        @Url fullUrl: String
-    ): EpisodesDto
+    @GET("episode/{id}")
+    suspend fun getEpisodeByIds(
+        @Path("id") ids: String
+    ): List<EpisodeDto>
 }

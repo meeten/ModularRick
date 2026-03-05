@@ -9,5 +9,6 @@ interface RickAndMortyRepository {
 
     fun getCharacter(id: Int): StateFlow<OperationResult<Character>>
 
-    fun getEpisodesByUrls(urls: List<String>): StateFlow<OperationResult<List<Episode>>>
+    fun getEpisodesByUrls(ids: List<String>):
+            StateFlow<OperationResult<Map<Int, List<Episode>>>>
 }

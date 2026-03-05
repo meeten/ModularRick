@@ -24,13 +24,26 @@ class RickAndMortyMapper() {
         )
     }
 
-    fun mapResponseToEpisode(response: EpisodesDto): Episode {
+    fun mapResponseToEpisodes(response: List<EpisodeDto>): Map<Int, List<Episode>> {
+        val result = mutableMapOf<Int, List<Episode>>()
+        response.forEach { episodeDto ->
+            val episode = mapResponseToEpisode(episodeDto)
+            val key = episode.seasonNumber
+            result[key] =
+                result.getOrDefault(key, emptyList()) + listOf(episode)
+        }
+        return result
+    }
+
+    private fun mapResponseToEpisode(episodeDto: EpisodeDto): Episode {
+        val formattedEpisode = episodeDto.episode.formatEpisode()
         return Episode(
-            id = response.id,
-            name = response.name,
-            airDate = response.airDate,
-            episode = response.episode,
-            characters = response.characters
+            id = episodeDto.id,
+            name = episodeDto.name,
+            airDate = episodeDto.airDate,
+            seasonNumber = formattedEpisode.getOrDefault(SEASON_KEY, 0),
+            episodeNumber = formattedEpisode.getOrDefault(EPISODE_KEY, 0),
+            characters = episodeDto.characters
         )
     }
 
@@ -48,5 +61,20 @@ class RickAndMortyMapper() {
                 CharacterStatus.UNKNOWN
             }
         }
+    }
+
+    private fun String.formatEpisode(): Map<String, Int> {
+        val indexE = this.indexOf('E')
+        val season = this.substring(1, indexE).toInt()
+        val episode = this.substring(indexE + 1).toInt()
+        return mapOf(
+            Pair(SEASON_KEY, season),
+            Pair(EPISODE_KEY, episode)
+        )
+    }
+
+    private companion object {
+        const val SEASON_KEY = "season"
+        const val EPISODE_KEY = "episode"
     }
 }

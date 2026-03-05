@@ -40,19 +40,20 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
         initialValue = OperationResult.Success<Character>(null)
     )
 
-    private val _episodes = mutableListOf<Episode>()
+    private val _episodes = mutableMapOf<Int, List<Episode>>()
     private val episodes
-        get() = _episodes.toList()
+        get() = _episodes.toMap()
 
-    override fun getEpisodesByUrls(urls: List<String>) = flow {
-        urls.forEach { url ->
-            val response = apiService.getEpisodeByUrl(url)
-            val episode = rickAndMortyMapper.mapResponseToEpisode(response)
-            _episodes.add(episode)
-        }
+    override fun getEpisodesByUrls(ids: List<String>) = flow {
+        val response = apiService.getEpisodeByIds(
+            ids.joinToString(",")
+        )
+        _episodes.putAll(
+            rickAndMortyMapper.mapResponseToEpisodes(response)
+        )
         emit(episodes)
     }.map {
-        OperationResult.Success(it) as OperationResult<List<Episode>>
+        OperationResult.Success(it) as OperationResult<Map<Int, List<Episode>>>
     }.retry(2) {
         true
     }.catch {
