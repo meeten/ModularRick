@@ -10,7 +10,7 @@ class GetEpisodesUseCase(
     private val rickAndMortyRepository: RickAndMortyRepository
 ) {
 
-    operator fun invoke(urls: List<String>): StateFlow<OperationResult<Map<Int, List<Episode>>>> {
+    operator fun invoke(urls: List<String>): StateFlow<OperationResult<List<Episode>>> {
         val ids = urlsToIds(urls)
         return rickAndMortyRepository.getEpisodesByUrls(ids)
     }

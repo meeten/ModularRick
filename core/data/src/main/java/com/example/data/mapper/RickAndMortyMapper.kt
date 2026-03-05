@@ -24,13 +24,11 @@ class RickAndMortyMapper() {
         )
     }
 
-    fun mapResponseToEpisodes(response: List<EpisodeDto>): Map<Int, List<Episode>> {
-        val result = mutableMapOf<Int, List<Episode>>()
+    fun mapResponseToEpisodes(response: List<EpisodeDto>): List<Episode> {
+        val result = mutableListOf<Episode>()
         response.forEach { episodeDto ->
-            val episode = mapResponseToEpisode(episodeDto)
-            val key = episode.seasonNumber
-            result[key] =
-                result.getOrDefault(key, emptyList()) + listOf(episode)
+            val episode = mapEpisodeDtoToEpisode(episodeDto)
+            result.add(episode)
         }
         return result
     }
@@ -63,6 +61,8 @@ class RickAndMortyMapper() {
         }
     }
 
+    //format before: S02E01
+    //format after: {season: 2, episode: 1}
     private fun String.formatEpisode(): Map<String, Int> {
         val indexE = this.indexOf('E')
         val season = this.substring(1, indexE).toInt()

@@ -9,7 +9,7 @@ sealed class EpisodesScreenState {
     object Loading : EpisodesScreenState()
 
     data class Episodes(
-        val episodes: Map<Int, List<Episode>>
+        val episodes: List<Episode>
     ) : EpisodesScreenState()
 
     data class Error(val errorDescription: String) : EpisodesScreenState()

@@ -12,7 +12,12 @@ interface ApiService {
     ): CharacterDto
 
     @GET("episode/{id}")
-    suspend fun getEpisodeByIds(
+    suspend fun getEpisodesByIds(
         @Path("id") ids: String
     ): List<EpisodeDto>
+
+    @GET("episode/{id}")
+    suspend fun getEpisodeById(
+        @Path("id") id: String
+    ): EpisodeDto
 }

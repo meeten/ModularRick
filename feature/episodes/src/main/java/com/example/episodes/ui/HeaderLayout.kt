@@ -13,7 +13,7 @@ import com.example.ui.CharacterNameText
 @Composable
 internal fun HeaderLayout(
     characterName: String,
-    episodes: Map<Int, List<Episode>>,
+    groupedEpisodes: Map<Int, List<Episode>>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -24,7 +24,7 @@ internal fun HeaderLayout(
         Spacer(modifier = Modifier.height(12.dp))
 
         VerticalEpisodesStatistics(
-            episodes = episodes,
+            groupedEpisodes = groupedEpisodes,
             modifier = Modifier.padding()
         )
     }

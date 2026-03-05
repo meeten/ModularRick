@@ -15,7 +15,7 @@ import com.example.ui.CharacterImage
 internal fun EpisodesContent(
     characterName: String,
     imageUrl: String,
-    episodes: Map<Int, List<Episode>>,
+    groupedEpisodes: Map<Int, List<Episode>>,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -24,7 +24,7 @@ internal fun EpisodesContent(
         item {
             HeaderLayout(
                 characterName = characterName,
-                episodes = episodes
+                groupedEpisodes = groupedEpisodes
             )
         }
 
@@ -35,7 +35,7 @@ internal fun EpisodesContent(
             )
         }
 
-        episodes.keys.forEach { seasonNumber ->
+        groupedEpisodes.keys.forEach { seasonNumber ->
             stickyHeader {
                 StickySectionHeader(
                     seasonNumber = seasonNumber
@@ -43,7 +43,7 @@ internal fun EpisodesContent(
             }
 
             items(
-                episodes.getOrDefault(
+                groupedEpisodes.getOrDefault(
                     seasonNumber, emptyList()
                 ), key = { it.id }) { episode ->
                 HorizontalEpisodesStatistics(episode = episode)

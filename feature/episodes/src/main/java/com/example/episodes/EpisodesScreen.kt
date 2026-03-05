@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.episodes.extension.sortedGroupEpisodesBySeasonNumber
 import com.example.episodes.model.EpisodesScreenState
 import com.example.episodes.ui.EpisodesContent
 import com.example.model.Character
@@ -38,7 +39,7 @@ fun EpisodesScreen(
                     EpisodesContent(
                         characterName = character.name,
                         imageUrl = character.imageUrl,
-                        episodes = currentState.episodes,
+                        groupedEpisodes = currentState.episodes.sortedGroupEpisodesBySeasonNumber(),
                         modifier = Modifier.padding(16.dp)
                     )
                 }

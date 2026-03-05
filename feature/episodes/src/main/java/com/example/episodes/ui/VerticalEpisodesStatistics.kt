@@ -14,11 +14,11 @@ import com.example.model.Episode
 
 @Composable
 internal fun VerticalEpisodesStatistics(
-    episodes: Map<Int, List<Episode>>,
+    groupedEpisodes: Map<Int, List<Episode>>,
     modifier: Modifier = Modifier
 ) {
     LazyRow(modifier = modifier) {
-        items(items = episodes.toList()) { episode ->
+        items(items = groupedEpisodes.toList()) { episode ->
             Column(
                 modifier = Modifier.padding(end = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(3.dp),

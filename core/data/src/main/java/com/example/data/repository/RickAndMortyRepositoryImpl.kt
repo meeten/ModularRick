@@ -40,20 +40,20 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
         initialValue = OperationResult.Success<Character>(null)
     )
 
-    private val _episodes = mutableMapOf<Int, List<Episode>>()
-    private val episodes
-        get() = _episodes.toMap()
-
     override fun getEpisodesByUrls(ids: List<String>) = flow {
-        val response = apiService.getEpisodeByIds(
-            ids.joinToString(",")
-        )
-        _episodes.putAll(
-            rickAndMortyMapper.mapResponseToEpisodes(response)
-        )
-        emit(episodes)
+        if (ids.size == 1) {
+            val response = apiService.getEpisodeById(ids[0])
+            val episode = rickAndMortyMapper.mapEpisodeDtoToEpisode(response)
+            emit(listOf(episode))
+        } else {
+            val response = apiService.getEpisodesByIds(
+                ids.joinToString(",")
+            )
+            val episodes = rickAndMortyMapper.mapResponseToEpisodes(response)
+            emit(episodes)
+        }
     }.map {
-        OperationResult.Success(it) as OperationResult<Map<Int, List<Episode>>>
+        OperationResult.Success(it) as OperationResult<List<Episode>>
     }.retry(2) {
         true
     }.catch {
@@ -61,6 +61,6 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
     }.stateIn(
         scope = coroutineScope,
         started = SharingStarted.Lazily,
-        initialValue = OperationResult.Success(episodes)
+        initialValue = OperationResult.Success(emptyList())
     )
 }
