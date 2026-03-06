@@ -25,12 +25,16 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
 
     private val _charactersCache = mutableMapOf<Int, Character>()
     override fun getCharacter(id: Int) = flow {
-        val character = _charactersCache[id] ?: rickAndMortyMapper
-            .mapResponseToCharacter((apiService.getCharacter(id)))
-        emit(character)
+        _charactersCache[id] = _charactersCache.getOrDefault(
+            key = id,
+            defaultValue = rickAndMortyMapper
+                .mapResponseToCharacter((apiService.getCharacter(id)))
+        )
+        emit(_charactersCache[id])
     }.map {
         OperationResult.Success(data = it) as OperationResult<Character>
     }.retry(2) {
+        throw it
         true
     }.catch {
         emit(OperationResult.Failure(it))
@@ -41,17 +45,7 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
     )
 
     override fun getEpisodesByUrls(ids: List<String>) = flow {
-        if (ids.size == 1) {
-            val response = apiService.getEpisodeById(ids[0])
-            val episode = rickAndMortyMapper.mapEpisodeDtoToEpisode(response)
-            emit(listOf(episode))
-        } else {
-            val response = apiService.getEpisodesByIds(
-                ids.joinToString(",")
-            )
-            val episodes = rickAndMortyMapper.mapResponseToEpisodes(response)
-            emit(episodes)
-        }
+        emit(fetchEpisodes(ids))
     }.map {
         OperationResult.Success(it) as OperationResult<List<Episode>>
     }.retry(2) {
@@ -63,4 +57,22 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
         started = SharingStarted.Lazily,
         initialValue = OperationResult.Success(emptyList())
     )
+
+    private suspend fun fetchEpisodes(ids: List<String>): List<Episode> {
+        return when (ids.size) {
+            1 -> {
+                val response = apiService.getEpisodeById(ids[0])
+                val episode = rickAndMortyMapper.mapEpisodeDtoToEpisode(response)
+                listOf(episode)
+            }
+
+            else -> {
+                val response = apiService.getEpisodesByIds(
+                    ids.joinToString(",")
+                )
+                val episodes = rickAndMortyMapper.mapResponseToEpisodes(response)
+                episodes
+            }
+        }
+    }
 }

@@ -33,7 +33,7 @@ class RickAndMortyMapper() {
         return result
     }
 
-    private fun mapResponseToEpisode(episodeDto: EpisodeDto): Episode {
+    fun mapEpisodeDtoToEpisode(episodeDto: EpisodeDto): Episode {
         val formattedEpisode = episodeDto.episode.formatEpisode()
         return Episode(
             id = episodeDto.id,
