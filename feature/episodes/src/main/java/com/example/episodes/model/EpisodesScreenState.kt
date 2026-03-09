@@ -2,7 +2,7 @@ package com.example.episodes.model
 
 import com.example.model.Episode
 
-sealed class EpisodesScreenState {
+internal sealed class EpisodesScreenState {
 
     object Initial : EpisodesScreenState()
 
