@@ -4,9 +4,10 @@ import android.util.Log
 import com.example.domain.repository.RickAndMortyRepository
 import com.example.model.Episode
 import com.example.model.OperationResult
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
 
-class GetEpisodesUseCase(
+class GetEpisodesUseCase @Inject constructor(
     private val rickAndMortyRepository: RickAndMortyRepository
 ) {
 

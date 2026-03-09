@@ -9,7 +9,9 @@ import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.episodes.EpisodesScreen
 import com.example.rickandmortyapp.navigation.AppNavGraph
 import com.example.rickandmortyapp.navigation.rememberNavigationState
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +22,7 @@ class MainActivity : ComponentActivity() {
                 AppNavGraph(
                     navController = navigationState.navController,
                     detailCharacterScreenContent = {
-                        CharacterDetailScreen(characterId = 235) { character ->
+                        CharacterDetailScreen(characterId = 114) { character ->
                             navigationState.navigateToEpisodesScreen(character)
                         }
                     },

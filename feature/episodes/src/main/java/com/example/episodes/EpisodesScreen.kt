@@ -5,10 +5,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.episodes.extension.sortedGroupEpisodesBySeasonNumber
 import com.example.episodes.model.EpisodesScreenState
 import com.example.episodes.ui.EpisodesContent
@@ -18,10 +19,12 @@ import com.example.ui.Loading
 @Composable
 fun EpisodesScreen(
     character: Character,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val viewModel: EpisodesViewModel =
-        viewModel(factory = EpisodesViewModelFactory(character.episode))
+    val viewModel: EpisodesViewModel = hiltViewModel()
+    LaunchedEffect(Unit) {
+        viewModel.setUrls(character.episode)
+    }
     val uiState = viewModel.uiState.collectAsState(
         initial = EpisodesScreenState.Initial
     )

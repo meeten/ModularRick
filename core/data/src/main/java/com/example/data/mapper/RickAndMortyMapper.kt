@@ -5,8 +5,9 @@ import com.example.model.CharacterDto
 import com.example.model.CharacterStatus
 import com.example.model.Episode
 import com.example.model.EpisodeDto
+import jakarta.inject.Inject
 
-class RickAndMortyMapper() {
+class RickAndMortyMapper @Inject constructor() {
 
     fun mapResponseToCharacter(response: CharacterDto): Character {
         return Character(

@@ -5,7 +5,7 @@ import com.example.domain.repository.RickAndMortyRepository
 import com.example.model.Character
 import com.example.model.Episode
 import com.example.model.OperationResult
-import com.example.network.ApiFactory
+import com.example.network.ApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,12 +14,15 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object RickAndMortyRepositoryImpl : RickAndMortyRepository {
 
-    //TODO: inject
-    private val apiService = ApiFactory.apiService
-    private val rickAndMortyMapper = RickAndMortyMapper()
+@Singleton
+class RickAndMortyRepositoryImpl @Inject constructor(
+    private val apiService: ApiService,
+    private val mapper: RickAndMortyMapper
+) : RickAndMortyRepository {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
@@ -27,14 +30,13 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
     override fun getCharacter(id: Int) = flow {
         _charactersCache[id] = _charactersCache.getOrDefault(
             key = id,
-            defaultValue = rickAndMortyMapper
+            defaultValue = mapper
                 .mapResponseToCharacter((apiService.getCharacter(id)))
         )
         emit(_charactersCache[id])
     }.map {
         OperationResult.Success(data = it) as OperationResult<Character>
     }.retry(2) {
-        throw it
         true
     }.catch {
         emit(OperationResult.Failure(it))
@@ -62,7 +64,7 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
         return when (ids.size) {
             1 -> {
                 val response = apiService.getEpisodeById(ids[0])
-                val episode = rickAndMortyMapper.mapEpisodeDtoToEpisode(response)
+                val episode = mapper.mapEpisodeDtoToEpisode(response)
                 listOf(episode)
             }
 
@@ -70,7 +72,7 @@ object RickAndMortyRepositoryImpl : RickAndMortyRepository {
                 val response = apiService.getEpisodesByIds(
                     ids.joinToString(",")
                 )
-                val episodes = rickAndMortyMapper.mapResponseToEpisodes(response)
+                val episodes = mapper.mapResponseToEpisodes(response)
                 episodes
             }
         }

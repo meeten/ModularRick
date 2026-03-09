@@ -5,10 +5,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.character.models.CharacterDetailScreenState
 import com.example.character.ui.CharacterDetailContent
 import com.example.model.Character
@@ -20,9 +21,11 @@ fun CharacterDetailScreen(
     modifier: Modifier = Modifier,
     onViewAllEpisodesClick: (Character) -> Unit,
 ) {
-    val viewModel: CharacterDetailViewModel = viewModel(
-        factory = CharacterDetailViewModelFactory(characterId)
-    )
+    val viewModel: CharacterDetailViewModel = hiltViewModel()
+
+    LaunchedEffect(Unit) {
+        viewModel.setCharacterId(characterId)
+    }
     val uiState = viewModel.uiState.collectAsState(
         CharacterDetailScreenState.Initial
     )
