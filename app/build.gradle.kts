@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
+    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -35,10 +38,16 @@ android {
     buildFeatures {
         compose = true
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 dependencies {
 
+    implementation(project(":core:data"))
+    implementation(project(":core:network"))
+    implementation(project(":core:domain"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:model"))
     implementation(project(":feature:character"))
@@ -49,6 +58,12 @@ dependencies {
 
     //gson
     implementation("com.google.code.gson:gson:2.13.2")
+
+    // hilt
+    implementation("com.google.dagger:hilt-android:2.57.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.core.ktx)
+    ksp("com.google.dagger:hilt-compiler:2.57.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

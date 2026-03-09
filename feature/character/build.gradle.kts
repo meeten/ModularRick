@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
+    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -29,12 +32,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 dependencies {
-
-    //TODO: удалить после внедрения инжектора зависимостей
-    implementation(project(":core:data"))
 
     implementation(project(":core:domain"))
     implementation(project(":core:model"))
@@ -44,6 +47,12 @@ dependencies {
 
     //viewModelCompose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.10.0")
+
+    // hilt
+    implementation("com.google.dagger:hilt-android:2.57.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.core.ktx)
+    ksp("com.google.dagger:hilt-compiler:2.57.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

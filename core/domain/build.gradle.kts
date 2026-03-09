@@ -1,5 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
+    id("com.google.devtools.ksp")
+    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -28,12 +31,21 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 dependencies {
 
     implementation(project(":core:model"))
     implementation(project(":core:network"))
+
+    // hilt
+    implementation("com.google.dagger:hilt-android:2.57.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.core.ktx)
+    ksp("com.google.dagger:hilt-compiler:2.57.1")
 
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
