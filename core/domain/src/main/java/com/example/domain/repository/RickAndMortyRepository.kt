@@ -3,12 +3,12 @@ package com.example.domain.repository
 import com.example.model.Character
 import com.example.model.Episode
 import com.example.model.OperationResult
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 interface RickAndMortyRepository {
 
-    fun getCharacter(id: Int): StateFlow<OperationResult<Character>>
+    fun getCharacter(id: Int): Flow<OperationResult<Character>>
 
     fun getEpisodesByUrls(ids: List<String>):
-            StateFlow<OperationResult<List<Episode>>>
+            Flow<OperationResult<List<Episode>>>
 }

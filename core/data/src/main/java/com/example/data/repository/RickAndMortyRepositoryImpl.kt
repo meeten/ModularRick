@@ -6,14 +6,10 @@ import com.example.model.Character
 import com.example.model.Episode
 import com.example.model.OperationResult
 import com.example.network.ApiService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.retry
-import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,8 +19,6 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val mapper: RickAndMortyMapper
 ) : RickAndMortyRepository {
-
-    private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     private val _charactersCache = mutableMapOf<Int, Character>()
     override fun getCharacter(id: Int) = flow {
@@ -40,11 +34,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
         true
     }.catch {
         emit(OperationResult.Failure(it))
-    }.stateIn(
-        scope = coroutineScope,
-        started = SharingStarted.Lazily,
-        initialValue = OperationResult.Success<Character>(null)
-    )
+    }
 
     override fun getEpisodesByUrls(ids: List<String>) = flow {
         emit(fetchEpisodes(ids))
@@ -54,11 +44,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
         true
     }.catch {
         emit(OperationResult.Failure(it))
-    }.stateIn(
-        scope = coroutineScope,
-        started = SharingStarted.Lazily,
-        initialValue = OperationResult.Success(emptyList())
-    )
+    }
 
     private suspend fun fetchEpisodes(ids: List<String>): List<Episode> {
         return when (ids.size) {

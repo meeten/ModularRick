@@ -2,6 +2,7 @@ package com.example.character
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.character.extension.asScreenState
 import com.example.character.models.CharacterDetailScreenState
 import com.example.common.mapToScreenState
@@ -9,10 +10,13 @@ import com.example.domain.usecases.GetCharacterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
@@ -40,8 +44,11 @@ internal class CharacterDetailViewModel @Inject constructor(
                 .onStart {
                     emit(CharacterDetailScreenState.Loading)
                 }
-        }
-
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = CharacterDetailScreenState.Initial
+        )
 
     fun setCharacterId(id: Int) {
         savedStateHandle[KEY_CHARACTER_ID] = id

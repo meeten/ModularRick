@@ -2,6 +2,7 @@ package com.example.episodes
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.common.mapToScreenState
 import com.example.domain.usecases.GetEpisodesUseCase
 import com.example.episodes.extension.asScreenState
@@ -9,9 +10,12 @@ import com.example.episodes.model.EpisodesScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
@@ -38,7 +42,11 @@ internal class EpisodesViewModel @Inject constructor(
                 .onStart {
                     emit(EpisodesScreenState.Loading)
                 }
-        }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = EpisodesScreenState.Initial
+        )
 
     fun setUrls(urls: List<String>) {
         savedStateHandle[KEY_URLS] = urls
