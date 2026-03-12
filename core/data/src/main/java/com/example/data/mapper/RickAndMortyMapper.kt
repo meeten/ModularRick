@@ -52,7 +52,7 @@ class RickAndMortyMapper @Inject constructor() {
                 CharacterStatus.ALIVE
             }
 
-            "live" -> {
+            "dead" -> {
                 CharacterStatus.DEAD
             }
 
