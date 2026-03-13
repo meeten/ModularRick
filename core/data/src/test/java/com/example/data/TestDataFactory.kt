@@ -1,6 +1,8 @@
 package com.example.data
 
+import com.example.model.Character
 import com.example.model.CharacterDto
+import com.example.model.CharacterStatus
 import com.example.model.EpisodeDto
 import com.example.model.LocationDto
 import com.example.model.OriginDto
@@ -51,3 +53,29 @@ internal fun createEpisodesDto(): List<EpisodeDto> {
     }
     return result
 }
+
+internal fun createCharacter(
+    id: Int = 1,
+    gender: String = "Gender",
+    name: String = "Name",
+    species: String = "Species",
+    status: CharacterStatus = CharacterStatus.UNKNOWN,
+    type: String = "Type",
+    imageUrl: String = "ImageUrl",
+    location: String = "Location",
+    origin: String = "Origin",
+    episode: List<String> = listOf("", "", ""),
+    episodeCount: Int = 3
+) = Character(
+    id = id,
+    gender = gender,
+    name = name,
+    species = species,
+    status = status,
+    type = type,
+    imageUrl = imageUrl,
+    location = location,
+    origin = origin,
+    episode = episode,
+    episodeCount = episodeCount
+)

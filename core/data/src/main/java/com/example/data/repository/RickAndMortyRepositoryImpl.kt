@@ -22,12 +22,11 @@ class RickAndMortyRepositoryImpl @Inject constructor(
 
     private val _charactersCache = mutableMapOf<Int, Character>()
     override fun getCharacter(id: Int) = flow {
-        _charactersCache[id] = _charactersCache.getOrDefault(
-            key = id,
-            defaultValue = mapper
-                .mapResponseToCharacter((apiService.getCharacter(id)))
-        )
-        emit(_charactersCache[id])
+        val character = _charactersCache.getOrPut(key = id) {
+            mapper
+                .mapResponseToCharacter(apiService.getCharacter(id))
+        }
+        emit(character)
     }.map {
         OperationResult.Success(data = it) as OperationResult<Character>
     }.retry(2) {
