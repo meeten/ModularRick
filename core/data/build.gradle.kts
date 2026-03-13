@@ -51,6 +51,12 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     ksp("com.google.dagger:hilt-compiler:2.57.1")
 
+    // mockk
+    testImplementation("io.mockk:mockk:1.14.9")
+
+    // kotlinx-coroutines-test
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.core.ktx)
