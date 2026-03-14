@@ -13,7 +13,7 @@ class GetEpisodesUseCase @Inject constructor(
 
     operator fun invoke(urls: List<String>): Flow<OperationResult<List<Episode>>> {
         val ids = urlsToIds(urls)
-        return rickAndMortyRepository.getEpisodesByUrls(ids)
+        return rickAndMortyRepository.getEpisodesByIds(ids)
     }
 
     private fun urlsToIds(urls: List<String>): List<String> {
