@@ -6,6 +6,7 @@ import com.example.model.Character
 import com.example.model.Episode
 import com.example.model.OperationResult
 import com.example.network.ApiService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -30,6 +31,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     }.map {
         OperationResult.Success(data = it) as OperationResult<Character>
     }.retry(2) {
+        delay(RETRY_TIMEOUT_MILLS)
         true
     }.catch {
         emit(OperationResult.Failure(it))
@@ -41,6 +43,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     }.map {
         OperationResult.Success(it) as OperationResult<List<Episode>>
     }.retry(2) {
+        delay(RETRY_TIMEOUT_MILLS)
         true
     }.catch {
         emit(OperationResult.Failure(it))
@@ -62,5 +65,9 @@ class RickAndMortyRepositoryImpl @Inject constructor(
                 episodes
             }
         }
+    }
+
+    companion object {
+        const val RETRY_TIMEOUT_MILLS = 3000L
     }
 }
