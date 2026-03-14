@@ -104,15 +104,6 @@ class RickAndMortyRepositoryTest {
     }
 
     @Test
-    fun `getEpisodes don't owe anything when ids is empty`() = runTest {
-        val ids = emptyList<String>()
-        val idsString = ids.joinToString(",")
-
-        repositoryMock.getEpisodesByIds(ids).collect { }
-        coVerify(exactly = 0) { apiServiceMock.getEpisodesByIds(idsString) }
-    }
-
-    @Test
     fun `getEpisodes should return model when network call is successful`() = runTest {
         val ids = (0 until 10).toList().map { it.toString() }
         val idsString = ids.joinToString(",")

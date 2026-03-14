@@ -38,7 +38,6 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     }
 
     override fun getEpisodesByIds(ids: List<String>) = flow {
-        if (ids.isEmpty()) return@flow
         emit(fetchEpisodes(ids))
     }.map {
         OperationResult.Success(it) as OperationResult<List<Episode>>
