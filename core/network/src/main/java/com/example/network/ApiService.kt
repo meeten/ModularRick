@@ -5,12 +5,13 @@ import com.example.model.CharactersDto
 import com.example.model.EpisodeDto
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("character/{page}")
+    @GET("character")
     suspend fun getCharacters(
-        @Path("page") page: String = "1"
+        @Query("page") page: String = "1"
     ): CharactersDto
 
     @GET("character/{id}")
