@@ -3,11 +3,22 @@ package com.example.data.mapper
 import com.example.model.Character
 import com.example.model.CharacterDto
 import com.example.model.CharacterStatus
+import com.example.model.CharactersDto
 import com.example.model.Episode
 import com.example.model.EpisodeDto
 import jakarta.inject.Inject
 
 class RickAndMortyMapper @Inject constructor() {
+
+    fun mapResponseToCharacters(response: CharactersDto): List<Character> {
+        val charactersDto = response.characters
+        val result = mutableListOf<Character>()
+        charactersDto.forEach { characterDto ->
+            val character = mapResponseToCharacter(characterDto)
+            result.add(character)
+        }
+        return result
+    }
 
     fun mapResponseToCharacter(response: CharacterDto): Character {
         return Character(

@@ -7,6 +7,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface RickAndMortyRepository {
 
+    fun getCharacters(): Flow<OperationResult<List<Character>>>
+
+    suspend fun loadNextCharacters()
+
     fun getCharacter(id: Int): Flow<OperationResult<Character>>
 
     fun getEpisodesByIds(ids: List<String>):

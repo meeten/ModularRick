@@ -7,6 +7,8 @@ import com.example.model.Episode
 import com.example.model.OperationResult
 import com.example.network.ApiService
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -20,6 +22,50 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val mapper: RickAndMortyMapper
 ) : RickAndMortyRepository {
+
+    private val nextDataNeededEvents = MutableSharedFlow<Unit>(replay = 1)
+
+    private val _characters = mutableListOf<Character>()
+    private val characters
+        get() = _characters.toList()
+    private var nextFrom: String? = null
+    private val loadedCharacters = flow<List<Character>> {
+        nextDataNeededEvents.emit(Unit)
+        nextDataNeededEvents.collect {
+            val startFrom = nextFrom
+            if (startFrom == null && characters.isNotEmpty()) {
+                emit(characters)
+                return@collect
+            }
+
+            val response =
+                if (startFrom == null) apiService.getCharacters()
+                else apiService.getCharacters(
+                    page = startFrom.urlParserToPageNumber()
+                )
+            nextFrom = response.infoDto.nextPageUrl
+
+            _characters.addAll(
+                mapper.mapResponseToCharacters(response)
+            )
+            emit(characters)
+        }
+    }
+
+    override fun getCharacters(): Flow<OperationResult<List<Character>>> =
+        loadedCharacters
+            .map { OperationResult.Success(it) as OperationResult<List<Character>> }
+            .retry(2) {
+                RETRY_TIMEOUT_MILLS
+                true
+            }
+            .catch {
+                emit(OperationResult.Failure(it))
+            }
+
+    override suspend fun loadNextCharacters() {
+        nextDataNeededEvents.emit(Unit)
+    }
 
     private val _charactersCache = mutableMapOf<Int, Character>()
     override fun getCharacter(id: Int) = flow {
@@ -64,6 +110,15 @@ class RickAndMortyRepositoryImpl @Inject constructor(
                 episodes
             }
         }
+    }
+
+    private fun String.urlParserToPageNumber(): String {
+        val pageNumber =
+            this.substringAfterLast(
+                "/",
+                missingDelimiterValue = ""
+            )
+        return if (pageNumber.isNotEmpty() && pageNumber.all { it.isDigit() }) pageNumber else ""
     }
 
     companion object {
