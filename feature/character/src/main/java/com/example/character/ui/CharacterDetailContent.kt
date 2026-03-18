@@ -58,6 +58,10 @@ internal fun CharacterDetailContent(
 
         CharacterImage(
             imageUrl = imageUrl,
+            modifier = Modifier
+                .height(400.dp)
+                .clip(shape = RoundedCornerShape(40.dp)),
+            contentScale = ContentScale.FillBounds,
             imagePreview = imagePreview
         )
 
