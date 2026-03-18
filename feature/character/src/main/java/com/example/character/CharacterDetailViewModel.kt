@@ -6,12 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.character.extension.asScreenState
 import com.example.character.models.CharacterDetailScreenState
 import com.example.common.mapToScreenState
-import com.example.domain.usecases.GetCharacterUseCase
+import com.example.domain.usecases.GetDetailCharacterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
@@ -21,7 +20,7 @@ import kotlinx.coroutines.flow.stateIn
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 internal class CharacterDetailViewModel @Inject constructor(
-    private val getCharacterUseCase: GetCharacterUseCase,
+    private val getCharacterUseCase: GetDetailCharacterUseCase,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
