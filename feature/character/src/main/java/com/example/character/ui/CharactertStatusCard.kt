@@ -14,6 +14,11 @@ import androidx.compose.ui.unit.dp
 import com.example.character.R
 import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
+import com.example.ui.preview.ALIVE_STATUS_NAME
+import com.example.ui.preview.BACKGROUND_COLOR
+import com.example.ui.preview.DEAD_STATUS_NAME
+import com.example.ui.preview.SHOW_BACKGROUND
+import com.example.ui.preview.UNKNOWN_STATUS_NAME
 
 @Composable
 internal fun CharacterStatusCard(
@@ -37,9 +42,9 @@ internal fun CharacterStatusCard(
 }
 
 @Preview(
-    name = "Alive status",
-    backgroundColor = 0xFF000000,
-    showBackground = true
+    name = ALIVE_STATUS_NAME,
+    backgroundColor = BACKGROUND_COLOR,
+    showBackground = SHOW_BACKGROUND
 )
 @Composable
 private fun CharacterStatusAliveCardPreview() {
@@ -51,9 +56,9 @@ private fun CharacterStatusAliveCardPreview() {
 }
 
 @Preview(
-    name = "Dead status",
-    backgroundColor = 0xFF000000,
-    showBackground = true
+    name = DEAD_STATUS_NAME,
+    backgroundColor = BACKGROUND_COLOR,
+    showBackground = SHOW_BACKGROUND
 )
 @Composable
 private fun CharacterStatusDeadCardPreview() {
@@ -65,9 +70,9 @@ private fun CharacterStatusDeadCardPreview() {
 }
 
 @Preview(
-    name = "Unknown status",
-    backgroundColor = 0xFF000000,
-    showBackground = true
+    name = UNKNOWN_STATUS_NAME,
+    backgroundColor = BACKGROUND_COLOR,
+    showBackground = SHOW_BACKGROUND
 )
 @Composable
 private fun CharacterStatusUnknownCardPreview() {

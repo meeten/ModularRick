@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,6 +24,12 @@ import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
 import com.example.ui.CharacterImage
 import com.example.ui.CharacterNameText
+import com.example.ui.preview.ALIVE_STATUS_NAME
+import com.example.ui.preview.BACKGROUND_COLOR
+import com.example.ui.preview.DEAD_STATUS_NAME
+import com.example.ui.preview.SHOW_BACKGROUND
+import com.example.ui.preview.UNKNOWN_STATUS_NAME
+import com.example.ui.preview.charactersPreview
 
 @Composable
 internal fun CharacterDetailContent(
@@ -90,19 +99,19 @@ private val fieldInfoPreview = listOf(
 )
 
 @Preview(
-    name = "Alive status",
-    backgroundColor = 0xFF000000,
-    showBackground = true
+    name = ALIVE_STATUS_NAME,
+    backgroundColor = BACKGROUND_COLOR,
+    showBackground = SHOW_BACKGROUND
 )
 @Composable
 private fun CharacterDetailContentWithAliveStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
             CharacterDetailContent(
-                status = CharacterStatus.ALIVE,
-                name = "Rick Sanchez",
+                status = charactersPreview[0].status,
+                name = charactersPreview[0].name,
                 imageUrl = "",
-                imagePreview = R.drawable.img_preview_1,
+                imagePreview = charactersPreview[0].imageUrl,
                 fieldsInfo = fieldInfoPreview,
                 modifier = modifierPreview.padding(it)
             ) {}
@@ -111,19 +120,19 @@ private fun CharacterDetailContentWithAliveStatusPreview() {
 }
 
 @Preview(
-    name = "Dead status",
-    backgroundColor = 0xFF000000,
-    showBackground = true
+    name = DEAD_STATUS_NAME,
+    backgroundColor = BACKGROUND_COLOR,
+    showBackground = SHOW_BACKGROUND
 )
 @Composable
 private fun CharacterDetailContentWithDeadStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
             CharacterDetailContent(
-                status = CharacterStatus.DEAD,
-                name = "Shnoopy Bloopers",
+                status = charactersPreview[1].status,
+                name = charactersPreview[1].name,
                 imageUrl = "",
-                imagePreview = R.drawable.img_preview_2,
+                imagePreview = charactersPreview[1].imageUrl,
                 fieldsInfo = fieldInfoPreview,
                 modifier = modifierPreview.padding(it)
             ) {}
@@ -132,19 +141,19 @@ private fun CharacterDetailContentWithDeadStatusPreview() {
 }
 
 @Preview(
-    name = "Unknown status",
-    backgroundColor = 0xFF000000,
-    showBackground = true
+    name = UNKNOWN_STATUS_NAME,
+    backgroundColor = BACKGROUND_COLOR,
+    showBackground = SHOW_BACKGROUND
 )
 @Composable
 private fun CharacterDetailContentWithUnknownStatusPreview() {
     RickAndMortyAppTheme {
         Scaffold {
             CharacterDetailContent(
-                status = CharacterStatus.UNKNOWN,
-                name = "Bootleg Portal Chemist Rick",
+                status = charactersPreview[2].status,
+                name = charactersPreview[2].name,
                 imageUrl = "",
-                imagePreview = R.drawable.img_preview_3,
+                imagePreview = charactersPreview[2].imageUrl,
                 fieldsInfo = fieldInfoPreview,
                 modifier = modifierPreview.padding(it)
             ) {}

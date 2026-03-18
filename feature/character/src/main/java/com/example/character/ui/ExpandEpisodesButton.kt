@@ -13,6 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.character.R
 import com.example.designsystem.theme.RickAndMortyAppTheme
+import com.example.ui.preview.BACKGROUND_COLOR
+import com.example.ui.preview.SHOW_BACKGROUND
 
 @Composable
 internal fun ExpandEpisodesButton(
@@ -39,8 +41,8 @@ internal fun ExpandEpisodesButton(
 }
 
 @Preview(
-    backgroundColor = 0xFF000000,
-    showBackground = true
+    backgroundColor = BACKGROUND_COLOR,
+    showBackground = SHOW_BACKGROUND
 )
 @Composable
 fun ExpandEpisodesButtonPreview() {
