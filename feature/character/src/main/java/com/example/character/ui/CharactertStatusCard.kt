@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.character.R
 import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
+import com.example.ui.extension.color
 import com.example.ui.preview.ALIVE_STATUS_NAME
 import com.example.ui.preview.BACKGROUND_COLOR
 import com.example.ui.preview.DEAD_STATUS_NAME
