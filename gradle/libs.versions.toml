@@ -13,6 +13,8 @@ material = "1.13.0"
 ui = "1.10.3"
 coreKtxVersion = "1.17.0"
 junitJupiter = "5.14.0"
+androidxCoreKtx = "1.18.0"
+foundation = "1.10.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +37,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
+androidx-core-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCoreKtx" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
