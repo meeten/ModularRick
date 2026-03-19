@@ -8,6 +8,12 @@ import com.example.model.Character
 
 class NavigationState(val navController: NavHostController) {
 
+    fun navigateToDetailCharacter(characterId: Int) {
+        navController.navigate(
+            Screen.DetailCharacterScreen.createRouteWithArgs(characterId)
+        )
+    }
+
     fun navigateToEpisodesScreen(character: Character) {
         navController.navigate(
             Screen.EpisodesScreen.createRouteWithArgs(character)

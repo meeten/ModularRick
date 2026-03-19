@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import com.example.character.CharacterDetailScreen
 import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.episodes.EpisodesScreen
+import com.example.home.HomeScreen
 import com.example.rickandmortyapp.navigation.AppNavGraph
 import com.example.rickandmortyapp.navigation.rememberNavigationState
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,8 +22,13 @@ class MainActivity : ComponentActivity() {
             RickAndMortyAppTheme {
                 AppNavGraph(
                     navController = navigationState.navController,
-                    detailCharacterScreenContent = {
-                        CharacterDetailScreen(characterId = 114) { character ->
+                    homeScreenContent = {
+                        HomeScreen { characterId ->
+                            navigationState.navigateToDetailCharacter(characterId)
+                        }
+                    },
+                    detailCharacterScreenContent = { character ->
+                        CharacterDetailScreen(character) { character ->
                             navigationState.navigateToEpisodesScreen(character)
                         }
                     },

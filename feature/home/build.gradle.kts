@@ -1,25 +1,22 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
-    alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "com.example.rickandmortyapp"
+    namespace = "com.example.home"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.rickandmortyapp"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -35,35 +32,26 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    buildFeatures {
-        compose = true
-    }
     kotlinOptions {
         jvmTarget = "11"
     }
 }
 
 dependencies {
-
-    implementation(project(":core:data"))
-    implementation(project(":core:network"))
     implementation(project(":core:domain"))
-    implementation(project(":core:designsystem"))
     implementation(project(":core:model"))
-    implementation(project(":feature:home"))
-    implementation(project(":feature:character"))
-    implementation(project(":feature:episodes"))
+    implementation(project(":core:common"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:designsystem"))
 
-    //navigation-compose
-    implementation("androidx.navigation:navigation-compose:2.9.7")
-
-    //gson
-    implementation("com.google.code.gson:gson:2.13.2")
+    //viewModelCompose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.10.0")
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.57.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    implementation(libs.core.ktx)
+    implementation(libs.androidx.core.core.ktx)
+    implementation(libs.androidx.compose.foundation)
     ksp("com.google.dagger:hilt-compiler:2.57.1")
 
     implementation(libs.androidx.core.ktx)
@@ -74,6 +62,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.ui)
+    implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
