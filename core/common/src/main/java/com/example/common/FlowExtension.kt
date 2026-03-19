@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 inline fun <T, R> Flow<OperationResult<T>>.mapToScreenState(
-    crossinline onSuccess: (T?) -> R,
+    crossinline onSuccess: (T) -> R,
     crossinline onError: (Throwable) -> R
 ): Flow<R> = map { result ->
     when (result) {
