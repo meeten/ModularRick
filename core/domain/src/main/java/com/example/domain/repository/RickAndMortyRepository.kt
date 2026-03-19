@@ -4,10 +4,11 @@ import com.example.model.Character
 import com.example.model.Episode
 import com.example.model.OperationResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface RickAndMortyRepository {
 
-    fun getCharacters(): Flow<OperationResult<List<Character>>>
+    val charactersData: StateFlow<OperationResult<List<Character>>>
 
     suspend fun loadNextCharacters()
 

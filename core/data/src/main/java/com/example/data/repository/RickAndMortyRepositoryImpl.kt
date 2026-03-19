@@ -6,16 +6,18 @@ import com.example.model.Character
 import com.example.model.Episode
 import com.example.model.OperationResult
 import com.example.network.ApiService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
-
 
 @Singleton
 class RickAndMortyRepositoryImpl @Inject constructor(
@@ -23,6 +25,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     private val mapper: RickAndMortyMapper
 ) : RickAndMortyRepository {
 
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
     private val nextDataNeededEvents = MutableSharedFlow<Unit>(replay = 1)
 
     private val _characters = mutableListOf<Character>()
@@ -43,8 +46,8 @@ class RickAndMortyRepositoryImpl @Inject constructor(
                 else apiService.getCharacters(
                     page = startFrom.urlParserToPageNumber()
                 )
-            nextFrom = response.infoDto.nextPageUrl
 
+            nextFrom = response.infoDto.nextPageUrl
             _characters.addAll(
                 mapper.mapResponseToCharacters(response)
             )
@@ -52,16 +55,19 @@ class RickAndMortyRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCharacters(): Flow<OperationResult<List<Character>>> =
-        loadedCharacters
-            .map { OperationResult.Success(it) as OperationResult<List<Character>> }
-            .retry(2) {
-                RETRY_TIMEOUT_MILLS
-                true
-            }
-            .catch {
-                emit(OperationResult.Failure(it))
-            }
+    override val charactersData = loadedCharacters
+        .map { OperationResult.Success(it) as OperationResult<List<Character>> }
+        .retry(2) {
+            RETRY_TIMEOUT_MILLS
+            true
+        }
+        .catch {
+            emit(OperationResult.Failure(it))
+        }.stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.Lazily,
+            initialValue = OperationResult.Success(emptyList())
+        )
 
     override suspend fun loadNextCharacters() {
         nextDataNeededEvents.emit(Unit)

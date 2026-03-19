@@ -18,7 +18,7 @@ fun HomeScreen(
     onClickCharacter: (Int) -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
-    val uiState = viewModel.uiState.collectAsState()
+    val uiState = viewModel.uiState.collectAsState(initial = HomeScreenState.Loading)
 
     Scaffold(modifier = modifier) {
         Column(modifier = Modifier.padding(it)) {
