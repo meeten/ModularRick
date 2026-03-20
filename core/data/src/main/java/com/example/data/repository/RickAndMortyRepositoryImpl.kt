@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.retryWhen
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -44,7 +45,6 @@ class RickAndMortyRepositoryImpl @Inject constructor(
             val response = if (startFrom == null) {
                 apiService.getCharacters()
             } else {
-
                 apiService.getCharacters(
                     page = startFrom.urlParserToPageNumber()
                 )
@@ -60,13 +60,17 @@ class RickAndMortyRepositoryImpl @Inject constructor(
 
     override val charactersData = loadedCharacters
         .map { OperationResult.Success(it) as OperationResult<List<Character>> }
-        .retry {
-            if ((it as? retrofit2.HttpException)?.code() == 429) {
+        .retryWhen { cause, attempt ->
+            if ((cause as? retrofit2.HttpException)?.code() == 429) {
                 delay(RETRY_TIMEOUT_MILLS)
-                return@retry true
+                return@retryWhen true
             }
 
-            false
+            val shouldRetry = attempt < MAX_ATTEMPTS
+            if (shouldRetry) {
+                delay(RETRY_TIMEOUT_MILLS)
+            }
+            shouldRetry
         }
         .catch {
             emit(OperationResult.Failure(it))
@@ -83,8 +87,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     private val _charactersCache = mutableMapOf<Int, Character>()
     override fun getCharacter(id: Int) = flow {
         val character = _charactersCache.getOrPut(key = id) {
-            mapper
-                .mapResponseToCharacter(apiService.getCharacter(id))
+            mapper.mapResponseToCharacter(apiService.getCharacter(id))
         }
         emit(character)
     }.map {
@@ -134,6 +137,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     }
 
     companion object {
+        const val MAX_ATTEMPTS = 3
         const val RETRY_TIMEOUT_MILLS = 3000L
     }
 }
