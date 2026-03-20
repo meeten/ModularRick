@@ -46,6 +46,9 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:model"))
 
+    //retrofit
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+
     // hilt
     implementation("com.google.dagger:hilt-android:2.57.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")

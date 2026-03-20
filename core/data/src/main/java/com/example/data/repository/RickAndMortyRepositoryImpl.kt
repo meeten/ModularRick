@@ -37,29 +37,36 @@ class RickAndMortyRepositoryImpl @Inject constructor(
         nextDataNeededEvents.collect {
             val startFrom = nextFrom
             if (startFrom == null && characters.isNotEmpty()) {
-                emit(characters)
+                emit(characters.toList())
                 return@collect
             }
 
-            val response =
-                if (startFrom == null) apiService.getCharacters()
-                else apiService.getCharacters(
+            val response = if (startFrom == null) {
+                apiService.getCharacters()
+            } else {
+
+                apiService.getCharacters(
                     page = startFrom.urlParserToPageNumber()
                 )
+            }
 
             nextFrom = response.infoDto.nextPageUrl
             _characters.addAll(
                 mapper.mapResponseToCharacters(response)
             )
-            emit(characters)
+            emit(characters.toList())
         }
     }
 
     override val charactersData = loadedCharacters
         .map { OperationResult.Success(it) as OperationResult<List<Character>> }
-        .retry(2) {
-            RETRY_TIMEOUT_MILLS
-            true
+        .retry {
+            if ((it as? retrofit2.HttpException)?.code() == 429) {
+                delay(RETRY_TIMEOUT_MILLS)
+                return@retry true
+            }
+
+            false
         }
         .catch {
             emit(OperationResult.Failure(it))
@@ -121,8 +128,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     private fun String.urlParserToPageNumber(): String {
         val pageNumber =
             this.substringAfterLast(
-                "/",
-                missingDelimiterValue = ""
+                "page=",
             )
         return if (pageNumber.isNotEmpty() && pageNumber.all { it.isDigit() }) pageNumber else ""
     }

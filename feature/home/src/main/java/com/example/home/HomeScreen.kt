@@ -30,6 +30,8 @@ fun HomeScreen(
                 is HomeScreenState.Characters -> {
                     CharactersContent(
                         characters = currentState.characters,
+                        isLoadNextData = currentState.isLoadNextData,
+                        loadNextData = { viewModel.loadNextData() },
                         onClickCharacter = onClickCharacter
                     )
                 }

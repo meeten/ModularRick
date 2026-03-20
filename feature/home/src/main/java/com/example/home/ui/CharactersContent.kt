@@ -2,16 +2,20 @@ package com.example.home.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.Character
+import com.example.ui.Loading
 import com.example.ui.preview.BACKGROUND_COLOR
 import com.example.ui.preview.SHOW_BACKGROUND
 import com.example.ui.preview.charactersPreview
@@ -20,8 +24,10 @@ import com.example.ui.preview.model.CharacterPreview
 @Composable
 fun CharactersContent(
     characters: List<Character>,
+    isLoadNextData: Boolean,
     modifier: Modifier = Modifier,
     charactersPreview: List<CharacterPreview>? = null,
+    loadNextData: () -> Unit,
     onClickCharacter: (Int) -> Unit,
 ) {
     LazyVerticalGrid(
@@ -51,6 +57,18 @@ fun CharactersContent(
                 onClickCharacter(character.id)
             }
         }
+
+        item(span = { GridItemSpan(maxCurrentLineSpan) }) {
+            if (isLoadNextData) {
+                Loading(
+                    modifier = Modifier.wrapContentHeight()
+                )
+            } else {
+                 SideEffect {
+                    loadNextData()
+                }
+            }
+        }
     }
 }
 
@@ -65,8 +83,11 @@ fun CharactersContentPreview() {
             CharactersContent(
                 characters = listOf(),
                 charactersPreview = charactersPreview,
-                modifier = Modifier.padding(it)
-            ) {}
+                isLoadNextData = false,
+                modifier = Modifier.padding(it),
+                loadNextData = {},
+                onClickCharacter = {}
+            )
         }
     }
 }

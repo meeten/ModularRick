@@ -7,7 +7,8 @@ sealed class HomeScreenState {
     object Loading : HomeScreenState()
 
     data class Characters(
-        val characters: List<Character>
+        val characters: List<Character>,
+        val isLoadNextData: Boolean = false
     ) : HomeScreenState()
 
     data class Error(
