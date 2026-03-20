@@ -7,7 +7,6 @@ import com.example.model.Episode
 import com.example.model.OperationResult
 import com.example.network.ApiService
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -23,10 +22,10 @@ import javax.inject.Singleton
 @Singleton
 class RickAndMortyRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val mapper: RickAndMortyMapper
+    private val mapper: RickAndMortyMapper,
+    coroutineScope: CoroutineScope
 ) : RickAndMortyRepository {
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Default)
     private val nextDataNeededEvents = MutableSharedFlow<Unit>(replay = 1)
 
     private val charactersCache = mutableMapOf<Int, Character>()
@@ -58,7 +57,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     override val charactersData = loadedCharacters
         .map { OperationResult.Success(it) as OperationResult<List<Character>> }
         .retryWhen { cause, attempt ->
-            if ((cause as? retrofit2.HttpException)?.code() == 429) {
+            if ((cause as? retrofit2.HttpException)?.code() == TOO_MANY_REQUEST_CODE) {
                 delay(RETRY_TIMEOUT_MILLS)
                 return@retryWhen true
             }
@@ -125,6 +124,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     }
 
     companion object {
+        const val TOO_MANY_REQUEST_CODE = 429
         const val MAX_ATTEMPTS = 3
         const val RETRY_TIMEOUT_MILLS = 3000L
     }
