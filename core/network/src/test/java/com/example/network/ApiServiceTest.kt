@@ -1,6 +1,7 @@
 package com.example.network
 
 import com.example.getCharacterJsonResponse
+import com.example.getCharactersJsonResponse
 import com.example.getEpisodeJsonResponse
 import com.example.getEpisodesJsonResponse
 import kotlinx.coroutines.runBlocking
@@ -28,6 +29,40 @@ class ApiServiceTest {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
+    }
+
+    @Test
+    fun `getCharacters should return valid characters dto when server returns 200`() {
+        runBlocking {
+            val jsonResponse = getCharactersJsonResponse()
+            setMockResponse(jsonResponse)
+
+            val result = apiService.getCharacters()
+            assertEquals(1, result.characters.size)
+            assertEquals(
+                "https://rickandmortyapi.com/api/character/?page=2",
+                result.infoDto.nextPageUrl
+            )
+            assertEquals(1, result.characters[0].id)
+            assertEquals("Rick Sanchez", result.characters[0].name)
+            assertEquals("Alive", result.characters[0].status)
+            assertEquals("", result.characters[0].type)
+            assertEquals("Male", result.characters[0].gender)
+            assertEquals(1, result.characters[0].id)
+            assertEquals("Earth", result.characters[0].originDto.name)
+            assertEquals("Earth", result.characters[0].locationDto.name)
+            assertEquals(
+                "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+                result.characters[0].imageUrl
+            )
+            assertEquals(
+                "https://rickandmortyapi.com/api/episode/1",
+                result.characters[0].episode[0]
+            )
+        }
+
+        val request = mockWebServer.takeRequest()
+        assertEquals("/character", request.url.encodedPath)
     }
 
     @Test
