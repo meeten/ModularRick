@@ -29,16 +29,14 @@ class RickAndMortyRepositoryImpl @Inject constructor(
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
     private val nextDataNeededEvents = MutableSharedFlow<Unit>(replay = 1)
 
-    private val _characters = mutableListOf<Character>()
-    private val characters
-        get() = _characters.toList()
+    private val charactersCache = mutableMapOf<Int, Character>()
     private var nextFrom: String? = null
     private val loadedCharacters = flow<List<Character>> {
         nextDataNeededEvents.emit(Unit)
         nextDataNeededEvents.collect {
             val startFrom = nextFrom
-            if (startFrom == null && characters.isNotEmpty()) {
-                emit(characters.toList())
+            if (startFrom == null && charactersCache.isNotEmpty()) {
+                emit(charactersCache.values.toList())
                 return@collect
             }
 
@@ -49,10 +47,11 @@ class RickAndMortyRepositoryImpl @Inject constructor(
             }
 
             nextFrom = response.infoDto.nextPageUrl
-            _characters.addAll(
-                mapper.mapResponseToCharacters(response)
-            )
-            emit(characters.toList())
+            val result = mapper.mapResponseToCharacters(response)
+            result.forEach { character ->
+                charactersCache[character.id] = character
+            }
+            emit(charactersCache.values.toList())
         }
     }
 
@@ -82,9 +81,8 @@ class RickAndMortyRepositoryImpl @Inject constructor(
         nextDataNeededEvents.emit(Unit)
     }
 
-    private val _charactersCache = mutableMapOf<Int, Character>()
     override fun getCharacter(id: Int) = flow {
-        val character = _charactersCache.getOrPut(key = id) {
+        val character = charactersCache.getOrPut(key = id) {
             mapper.mapResponseToCharacter(apiService.getCharacter(id))
         }
         emit(character)
