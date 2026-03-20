@@ -45,9 +45,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
             val response = if (startFrom == null) {
                 apiService.getCharacters()
             } else {
-                apiService.getCharacters(
-                    page = startFrom.urlParserToPageNumber()
-                )
+                apiService.getCharacters(fullUrl = startFrom)
             }
 
             nextFrom = response.infoDto.nextPageUrl
@@ -126,14 +124,6 @@ class RickAndMortyRepositoryImpl @Inject constructor(
                 episodes
             }
         }
-    }
-
-    private fun String.urlParserToPageNumber(): String {
-        val pageNumber =
-            this.substringAfterLast(
-                "page=",
-            )
-        return if (pageNumber.isNotEmpty() && pageNumber.all { it.isDigit() }) pageNumber else ""
     }
 
     companion object {
