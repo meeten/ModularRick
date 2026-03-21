@@ -7,4 +7,5 @@
     <string name="episode_count">Episode count</string>
     <string name="view_all_episodes">View all episodes</string>
     <string name="status">Status: %1$s</string>
+    <string name="character_details">Character details</string>
 </resources>
