@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 
 val DarkColorScheme = darkColorScheme(
     primary = lightBlue,
+    surface = surfaceBackground,
     background = surfaceBackground,
     outline = Color.White,
 
