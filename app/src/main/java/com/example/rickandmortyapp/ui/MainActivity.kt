@@ -13,9 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.character.CharacterDetailScreen
 import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.episodes.EpisodesScreen
@@ -32,7 +31,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+            val viewModel: MainViewModel = hiltViewModel()
             val navigationState = rememberNavigationState()
+
             RickAndMortyAppTheme {
                 Scaffold(
                     bottomBar = {
@@ -55,15 +56,20 @@ class MainActivity : ComponentActivity() {
                                 CharacterDetailScreen(
                                     characterId = characterId,
                                     onClickBack = {
-                                        navigationState.navController.popBackStack()
-                                    }) { character ->
-                                    navigationState.navigateToEpisodesScreen(character)
-                                }
+                                        viewModel.onButtonClick { navigationState.navController.popBackStack() }
+                                    },
+                                    onViewAllEpisodesClick = { character ->
+                                        navigationState.navigateToEpisodesScreen(character)
+                                    }
+                                )
                             },
+
                             characterEpisodesScreenContent = { character ->
-                                EpisodesScreen(character = character, onClickBack = {
-                                    navigationState.navController.popBackStack()
-                                })
+                                EpisodesScreen(
+                                    character = character,
+                                    onClickBack = {
+                                        viewModel.onButtonClick { navigationState.navController.popBackStack() }
+                                    })
                             },
                             allEpisodesScreenContent = {
                                 MockContentScreen(title = "Episodes")
