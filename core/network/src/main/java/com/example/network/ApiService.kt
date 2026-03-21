@@ -1,20 +1,19 @@
 package com.example.network
 
 import com.example.model.CharacterDto
-import com.example.model.CharactersDto
+import com.example.model.CharactersResponseDto
 import com.example.model.EpisodeDto
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface ApiService {
 
     @GET("character")
-    suspend fun getCharacters(): CharactersDto
+    suspend fun getCharacters(): CharactersResponseDto
 
     @GET
-    suspend fun getCharacters(@Url fullUrl: String): CharactersDto
+    suspend fun getCharacters(@Url fullUrl: String): CharactersResponseDto
 
     @GET("character/{id}")
     suspend fun getCharacter(

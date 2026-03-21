@@ -1,7 +1,7 @@
 package com.example.data.mapper
 
 import com.example.data.createCharacterDto
-import com.example.data.createCharactersDto
+import com.example.data.createCharactersResponseDto
 import com.example.data.createEpisodeDto
 import com.example.data.createEpisodesDto
 import com.example.model.CharacterStatus
@@ -41,7 +41,7 @@ internal class RickAndMortyMapperTest {
 
     @Test
     fun `mapResponseToCharacters should accurately map list of DTOs to domain characters`() {
-        val charactersDto = createCharactersDto()
+        val charactersDto = createCharactersResponseDto()
         val characters = mapper.mapResponseToCharacters(charactersDto)
 
         assertEquals(characters.size, charactersDto.characters.size)

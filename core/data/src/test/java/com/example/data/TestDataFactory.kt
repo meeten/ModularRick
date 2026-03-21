@@ -3,7 +3,7 @@ package com.example.data
 import com.example.model.Character
 import com.example.model.CharacterDto
 import com.example.model.CharacterStatus
-import com.example.model.CharactersDto
+import com.example.model.CharactersResponseDto
 import com.example.model.Episode
 import com.example.model.EpisodeDto
 import com.example.model.InfoDto
@@ -34,14 +34,16 @@ internal fun createCharacterDto(
     episode = episode
 )
 
-internal fun createCharactersDto(): CharactersDto {
+internal fun createCharactersResponseDto(
+    nextPageUrl: String? = null
+): CharactersResponseDto {
     val result = mutableListOf<CharacterDto>().apply {
         repeat(10) {
             add(createCharacterDto(id = it))
         }
     }
-    return CharactersDto(
-        infoDto = InfoDto(nextPageUrl = null),
+    return CharactersResponseDto(
+        infoDto = InfoDto(nextPageUrl = nextPageUrl),
         characters = result
     )
 }
