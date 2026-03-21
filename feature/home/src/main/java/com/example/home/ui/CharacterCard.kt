@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
-import com.example.ui.CharacterImage
-import com.example.ui.CharacterNameText
+import com.example.ui.character.CharacterImage
+import com.example.ui.character.CharacterNameText
 import com.example.ui.extension.color
 import com.example.ui.preview.ALIVE_STATUS_NAME
 import com.example.ui.preview.DEAD_STATUS_NAME

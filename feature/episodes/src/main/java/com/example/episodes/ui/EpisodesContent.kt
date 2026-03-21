@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.model.Episode
-import com.example.ui.CharacterImage
+import com.example.ui.character.CharacterImage
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

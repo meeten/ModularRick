@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.Character
-import com.example.ui.Loading
+import com.example.ui.loading.Loading
 import com.example.ui.preview.BACKGROUND_COLOR
 import com.example.ui.preview.SHOW_BACKGROUND
 import com.example.ui.preview.charactersPreview

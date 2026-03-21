@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.model.Episode
-import com.example.ui.CharacterNameText
+import com.example.ui.character.CharacterNameText
 
 @Composable
 internal fun HeaderLayout(

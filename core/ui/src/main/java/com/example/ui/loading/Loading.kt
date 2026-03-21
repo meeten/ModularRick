@@ -1,4 +1,4 @@
-package com.example.ui
+package com.example.ui.loading
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 @Composable
 fun Loading(modifier: Modifier = Modifier) {
     Box(
-        contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(
             color = MaterialTheme.colorScheme.onPrimary

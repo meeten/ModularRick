@@ -11,6 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.home.model.HomeScreenState
 import com.example.home.ui.CharactersContent
 import com.example.ui.Loading
+import com.example.ui.loading.Loading
 
 @Composable
 fun HomeScreen(

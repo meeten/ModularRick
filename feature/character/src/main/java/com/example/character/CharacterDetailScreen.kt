@@ -14,6 +14,7 @@ import com.example.character.models.CharacterDetailScreenState
 import com.example.character.ui.CharacterDetailContent
 import com.example.model.Character
 import com.example.ui.Loading
+import com.example.ui.loading.Loading
 
 @Composable
 fun CharacterDetailScreen(

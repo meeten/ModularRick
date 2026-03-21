@@ -15,6 +15,7 @@ import com.example.episodes.model.EpisodesScreenState
 import com.example.episodes.ui.EpisodesContent
 import com.example.model.Character
 import com.example.ui.Loading
+import com.example.ui.loading.Loading
 
 @Composable
 fun EpisodesScreen(

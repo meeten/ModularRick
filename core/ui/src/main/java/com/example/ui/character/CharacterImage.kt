@@ -1,4 +1,4 @@
-package com.example.ui
+package com.example.ui.character
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
+import com.example.ui.loading.Loading
 
 @Composable
 fun CharacterImage(
