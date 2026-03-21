@@ -2,49 +2,35 @@ package com.example.rickandmortyapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.example.model.Character
-import com.google.gson.Gson
 
 @Composable
-fun AppNavGraph(
+fun NavGraphApplication(
     navController: NavHostController,
     homeScreenContent: @Composable () -> Unit,
     detailCharacterScreenContent: @Composable (Int) -> Unit,
-    episodesScreenContent: @Composable (Character) -> Unit
+    characterEpisodesScreenContent: @Composable (Character) -> Unit,
+    allEpisodesScreenContent: @Composable () -> Unit,
+    searchScreenContent: @Composable () -> Unit
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.HomeScreen.route
+        startDestination = Screen.Home.route
     ) {
-        composable(route = Screen.HomeScreen.route) {
-            homeScreenContent()
+        charactersNavGraph(
+            homeScreenContent = homeScreenContent,
+            detailCharacterScreenContent = detailCharacterScreenContent,
+            episodesScreenContent = characterEpisodesScreenContent
+        )
+
+        composable(Screen.AllEpisodesScreen.route) {
+            allEpisodesScreenContent()
         }
 
-        composable(
-            route = Screen.DetailCharacterScreen.route,
-            arguments = listOf(navArgument(name = Screen.KEY_CHARACTER_ID) {
-                type = NavType.IntType
-            })
-        ) {
-            val characterId = it.arguments?.getInt(Screen.KEY_CHARACTER_ID) ?: -1
-            detailCharacterScreenContent(characterId)
-        }
-
-        composable(
-            route = Screen.EpisodesScreen.route,
-            arguments = listOf(navArgument(name = Screen.KEY_CHARACTER) {
-                type = NavType.StringType
-            })
-        ) {
-            val character = Gson().fromJson(
-                it.arguments?.getString(Screen.KEY_CHARACTER),
-                Character::class.java
-            )
-            episodesScreenContent(character)
+        composable(Screen.Search.route) {
+            searchScreenContent()
         }
     }
 }
