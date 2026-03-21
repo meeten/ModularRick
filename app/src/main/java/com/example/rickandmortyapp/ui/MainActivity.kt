@@ -27,13 +27,19 @@ class MainActivity : ComponentActivity() {
                             navigationState.navigateToDetailCharacter(characterId)
                         }
                     },
-                    detailCharacterScreenContent = { character ->
-                        CharacterDetailScreen(character) { character ->
+                    detailCharacterScreenContent = { characterId ->
+                        CharacterDetailScreen(
+                            characterId = characterId,
+                            onClickBack = {
+                                navigationState.navController.popBackStack()
+                            }) { character ->
                             navigationState.navigateToEpisodesScreen(character)
                         }
                     },
                     episodesScreenContent = { character ->
-                        EpisodesScreen(character = character)
+                        EpisodesScreen(character = character, onClickBack = {
+                            navigationState.navController.popBackStack()
+                        })
                     }
                 )
             }

@@ -13,13 +13,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.character.models.CharacterDetailScreenState
 import com.example.character.ui.CharacterDetailContent
 import com.example.model.Character
-import com.example.ui.Loading
 import com.example.ui.loading.Loading
+import com.example.ui.topbar.NavigationIconBack
+import com.example.ui.topbar.TopAppBarCustom
 
 @Composable
 fun CharacterDetailScreen(
     characterId: Int,
     modifier: Modifier = Modifier,
+    onClickBack: () -> Unit,
     onViewAllEpisodesClick: (Character) -> Unit,
 ) {
     val viewModel: CharacterDetailViewModel = hiltViewModel()
@@ -31,7 +33,17 @@ fun CharacterDetailScreen(
         CharacterDetailScreenState.Initial
     )
 
-    Scaffold(modifier = modifier) {
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            TopAppBarCustom(
+                title = R.string.character_details,
+                navigationIcon = {
+                    NavigationIconBack(onClickIcon = onClickBack)
+                }
+            )
+        }
+    ) {
         Column(
             modifier = Modifier.padding(it)
         ) {
