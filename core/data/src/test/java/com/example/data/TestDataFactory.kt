@@ -3,8 +3,10 @@ package com.example.data
 import com.example.model.Character
 import com.example.model.CharacterDto
 import com.example.model.CharacterStatus
+import com.example.model.CharactersDto
 import com.example.model.Episode
 import com.example.model.EpisodeDto
+import com.example.model.InfoDto
 import com.example.model.LocationDto
 import com.example.model.OriginDto
 
@@ -31,6 +33,18 @@ internal fun createCharacterDto(
     originDto = origin,
     episode = episode
 )
+
+internal fun createCharactersDto(): CharactersDto {
+    val result = mutableListOf<CharacterDto>().apply {
+        repeat(10) {
+            add(createCharacterDto(id = it))
+        }
+    }
+    return CharactersDto(
+        infoDto = InfoDto(nextPageUrl = null),
+        characters = result
+    )
+}
 
 internal fun createEpisodeDto(
     id: Int = 1,

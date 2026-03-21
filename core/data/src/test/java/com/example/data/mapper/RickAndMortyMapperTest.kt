@@ -1,6 +1,7 @@
 package com.example.data.mapper
 
 import com.example.data.createCharacterDto
+import com.example.data.createCharactersDto
 import com.example.data.createEpisodeDto
 import com.example.data.createEpisodesDto
 import com.example.model.CharacterStatus
@@ -36,6 +37,28 @@ internal class RickAndMortyMapperTest {
         assertEquals(characterDto.originDto.name, character.origin)
         assertEquals(characterDto.episode, character.episode)
         assertEquals(CharacterStatus.ALIVE, character.status)
+    }
+
+    @Test
+    fun `mapResponseToCharacters should accurately map list of DTOs to domain characters`() {
+        val charactersDto = createCharactersDto()
+        val characters = mapper.mapResponseToCharacters(charactersDto)
+
+        assertEquals(characters.size, charactersDto.characters.size)
+
+        characters.forEachIndexed { index, character ->
+            val characterDto = charactersDto.characters[index]
+            assertEquals(characterDto.id, character.id)
+            assertEquals(characterDto.gender, character.gender)
+            assertEquals(characterDto.name, character.name)
+            assertEquals(characterDto.species, character.species)
+            assertEquals(characterDto.type, character.type)
+            assertEquals(characterDto.imageUrl, character.imageUrl)
+            assertEquals(characterDto.locationDto.name, character.location)
+            assertEquals(characterDto.originDto.name, character.origin)
+            assertEquals(characterDto.episode, character.episode)
+            assertEquals(CharacterStatus.ALIVE, character.status)
+        }
     }
 
     @Test
