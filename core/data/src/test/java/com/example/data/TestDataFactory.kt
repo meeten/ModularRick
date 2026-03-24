@@ -48,6 +48,16 @@ internal fun createCharactersResponseDto(
     )
 }
 
+internal fun createCharacters(): List<Character> {
+    val result = mutableListOf<Character>().apply {
+        repeat(10) {
+            add(createCharacter(id = it))
+        }
+    }
+
+    return result
+}
+
 internal fun createEpisodeDto(
     id: Int = 1,
     name: String = "name",

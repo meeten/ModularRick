@@ -1,7 +1,5 @@
 package com.example.data.repository
 
-import com.example.data.createCharacter
-import com.example.data.createCharacterDto
 import com.example.data.createEpisode
 import com.example.data.createEpisodeDto
 import com.example.data.createEpisodes
@@ -13,68 +11,34 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class RickAndMortyRepositoryTest {
+class EpisodesRepositoryTest {
 
     private lateinit var apiServiceMock: ApiService
     private lateinit var mapperMock: RickAndMortyMapper
-    private lateinit var repositoryMock: RickAndMortyRepositoryImpl
+    private lateinit var coroutineScopeTest: TestScope
+    private lateinit var repository: EpisodesRepositoryImpl
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @BeforeEach
     fun setUp() {
         apiServiceMock = mockk<ApiService>()
         mapperMock = mockk<RickAndMortyMapper>()
+        coroutineScopeTest = TestScope(UnconfinedTestDispatcher())
 
-        repositoryMock = RickAndMortyRepositoryImpl(apiServiceMock, mapperMock)
-    }
-
-    @Test
-    fun `getCharacter should return a character when the network call is successful`() = runTest {
-        val characterId = 1
-        val dto = createCharacterDto(id = characterId)
-        val model = createCharacter(id = characterId)
-
-        coEvery { apiServiceMock.getCharacter(characterId) } returns dto
-        every { mapperMock.mapResponseToCharacter(dto) } returns model
-
-        repositoryMock.getCharacter(characterId).collect {
-            assertTrue(it is OperationResult.Success)
-            assertEquals(model, (it as OperationResult.Success).data)
-        }
-    }
-
-    @Test
-    fun `getCharacter should get data from the network when the cache is empty otherwise from the cache`() =
-        runTest {
-
-            val characterId = 1
-            val dto = createCharacterDto(id = characterId)
-            val model = createCharacter(id = characterId)
-
-            coEvery { apiServiceMock.getCharacter(characterId) } returns dto
-            every { mapperMock.mapResponseToCharacter(dto) } returns model
-
-            repositoryMock.getCharacter(characterId).collect { } // первый вызов(network)
-            repositoryMock.getCharacter(characterId).collect { } // второй вызов(кеш)
-
-            coVerify(exactly = 1) { apiServiceMock.getCharacter(characterId) }
-        }
-
-    @Test
-    fun `getCharacter should return failure when network returns error`() = runTest {
-        val exception = RuntimeException("Network Error")
-
-        coEvery { apiServiceMock.getCharacter(any()) } throws exception
-
-        repositoryMock.getCharacter(1).collect {
-            assertTrue(it is OperationResult.Failure)
-            assertEquals(exception, (it as OperationResult.Failure).throwable)
-        }
+        repository = EpisodesRepositoryImpl(
+            apiService = apiServiceMock,
+            mapper = mapperMock,
+            coroutineScope = coroutineScopeTest
+        )
     }
 
     @Test
@@ -86,7 +50,7 @@ class RickAndMortyRepositoryTest {
             coEvery { apiServiceMock.getEpisodeById(ids[0]) } returns dto
             every { mapperMock.mapEpisodeDtoToEpisode(dto) } returns createEpisode()
 
-            repositoryMock.getEpisodesByIds(ids).collect { }
+            repository.getEpisodesByIds(ids).collect { }
             coVerify(exactly = 1) { apiServiceMock.getEpisodeById(ids[0]) }
         }
 
@@ -99,7 +63,7 @@ class RickAndMortyRepositoryTest {
         coEvery { apiServiceMock.getEpisodesByIds(idsString) } returns dto
         every { mapperMock.mapResponseToEpisodes(dto) } returns createEpisodes()
 
-        repositoryMock.getEpisodesByIds(ids).collect { }
+        repository.getEpisodesByIds(ids).collect { }
         coVerify(exactly = 1) { apiServiceMock.getEpisodesByIds(idsString) }
     }
 
@@ -113,7 +77,7 @@ class RickAndMortyRepositoryTest {
         coEvery { apiServiceMock.getEpisodesByIds(idsString) } returns dto
         every { mapperMock.mapResponseToEpisodes(dto) } returns model
 
-        repositoryMock.getEpisodesByIds(ids).collect {
+        repository.getEpisodesByIds(ids).collect {
             assertTrue(it is OperationResult.Success)
             assertEquals(model, (it as OperationResult.Success).data)
         }
@@ -125,25 +89,10 @@ class RickAndMortyRepositoryTest {
 
         coEvery { apiServiceMock.getEpisodesByIds(any()) } throws exception
 
-        repositoryMock.getEpisodesByIds(emptyList()).collect {
+        repository.getEpisodesByIds(emptyList()).collect {
             assertTrue(it is OperationResult.Failure)
             assertEquals(exception, (it as OperationResult.Failure).throwable)
         }
-    }
-
-    @Test
-    fun `getCharacter should re-call api method when network returns error`() = runTest {
-        val id = 1
-        val dto = createCharacterDto()
-        val model = createCharacter()
-
-        val exception = RuntimeException("Network Error")
-        coEvery { apiServiceMock.getCharacter(1) } throws exception andThenThrows exception andThen dto
-        every { mapperMock.mapResponseToCharacter(dto) } returns model
-
-        repositoryMock.getCharacter(id).collect { }
-
-        coVerify(exactly = 3) { apiServiceMock.getCharacter(1) }
     }
 
     @Test
@@ -157,7 +106,7 @@ class RickAndMortyRepositoryTest {
         coEvery { apiServiceMock.getEpisodesByIds(idsString) } throws exception andThenThrows exception andThen dto
         every { mapperMock.mapResponseToEpisodes(dto) } returns model
 
-        repositoryMock.getEpisodesByIds(ids).collect { }
+        repository.getEpisodesByIds(ids).collect { }
 
         coVerify(exactly = 3) { apiServiceMock.getEpisodesByIds(idsString) }
     }
