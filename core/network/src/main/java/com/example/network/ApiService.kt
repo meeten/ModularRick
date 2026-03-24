@@ -3,6 +3,7 @@ package com.example.network
 import com.example.model.CharacterDto
 import com.example.model.CharactersResponseDto
 import com.example.model.EpisodeDto
+import com.example.model.EpisodesResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Url
@@ -19,6 +20,12 @@ interface ApiService {
     suspend fun getCharacter(
         @Path("id") id: Int
     ): CharacterDto
+
+    @GET("episode")
+    suspend fun getEpisodes(): EpisodesResponseDto
+
+    @GET
+    suspend fun getEpisodes(@Url fullUrl: String): EpisodesResponseDto
 
     @GET("episode/{id}")
     suspend fun getEpisodesByIds(
