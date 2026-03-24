@@ -1,7 +1,9 @@
 package com.example.data.di
 
-import com.example.data.repository.RickAndMortyRepositoryImpl
-import com.example.domain.repository.RickAndMortyRepository
+import com.example.data.repository.CharactersRepositoryImpl
+import com.example.data.repository.EpisodesRepositoryImpl
+import com.example.domain.repository.CharactersRepository
+import com.example.domain.repository.EpisodesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -16,9 +18,14 @@ import javax.inject.Singleton
 interface DataModule {
 
     @Binds
-    fun bindRickAndMortyRepository(
-        impl: RickAndMortyRepositoryImpl
-    ): RickAndMortyRepository
+    fun bindCharactersRepository(
+        impl: CharactersRepositoryImpl
+    ): CharactersRepository
+
+    @Binds
+    fun bindEpisodesRepository(
+        impl: EpisodesRepositoryImpl
+    ): EpisodesRepository
 
     companion object {
         @Provides

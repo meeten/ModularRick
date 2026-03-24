@@ -1,8 +1,7 @@
 package com.example.data.repository
 
 import com.example.data.mapper.RickAndMortyMapper
-import com.example.domain.repository.RickAndMortyRepository
-import com.example.model.Character
+import com.example.domain.repository.EpisodesRepository
 import com.example.model.Episode
 import com.example.model.OperationResult
 import com.example.network.ApiService
@@ -10,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -19,43 +19,44 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
 
+//TODO: нарушение DRY с CharactersRepository, вынести всю повторяющуюся логику в абстракцию
 @Singleton
-class RickAndMortyRepositoryImpl @Inject constructor(
+class EpisodesRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val mapper: RickAndMortyMapper,
     coroutineScope: CoroutineScope
-) : RickAndMortyRepository {
+) : EpisodesRepository {
 
     private val nextDataNeededEvents = MutableSharedFlow<Unit>(replay = 1)
 
-    private val charactersCache = mutableMapOf<Int, Character>()
+    private val episodesCache = mutableMapOf<Int, Episode>()
     private var nextFrom: String? = null
-    private val loadedCharacters = flow<List<Character>> {
+    private val loadedEpisodes = flow {
         nextDataNeededEvents.emit(Unit)
         nextDataNeededEvents.collect {
             val startFrom = nextFrom
-            if (startFrom == null && charactersCache.isNotEmpty()) {
-                emit(charactersCache.values.toList())
+            if (startFrom == null && episodesCache.isNotEmpty()) {
+                emit(episodesCache.values.toList())
                 return@collect
             }
 
             val response = if (startFrom == null) {
-                apiService.getCharacters()
+                apiService.getEpisodes()
             } else {
-                apiService.getCharacters(fullUrl = startFrom)
+                apiService.getEpisodes(fullUrl = startFrom)
             }
 
             nextFrom = response.infoDto.nextPageUrl
-            val result = mapper.mapResponseToCharacters(response)
-            result.forEach { character ->
-                charactersCache[character.id] = character
+            val result = mapper.mapResponseToEpisodes(response.episodes)
+            result.forEach { episode ->
+                episodesCache[episode.id] = episode
             }
-            emit(charactersCache.values.toList())
+            emit(episodesCache.values.toList())
         }
     }
 
-    override val charactersData = loadedCharacters
-        .map { OperationResult.Success(it) as OperationResult<List<Character>> }
+    override val episodesData: StateFlow<OperationResult<List<Episode>>> = loadedEpisodes
+        .map { OperationResult.Success(it) as OperationResult<List<Episode>> }
         .retryWhen { cause, attempt ->
             if ((cause as? retrofit2.HttpException)?.code() == TOO_MANY_REQUEST_CODE) {
                 delay(RETRY_TIMEOUT_MILLS)
@@ -68,30 +69,15 @@ class RickAndMortyRepositoryImpl @Inject constructor(
             }
             shouldRetry
         }
-        .catch {
-            emit(OperationResult.Failure(it))
-        }.stateIn(
+        .catch { emit(OperationResult.Failure(it)) }
+        .stateIn(
             scope = coroutineScope,
             started = SharingStarted.Lazily,
             initialValue = OperationResult.Success(emptyList())
         )
 
-    override suspend fun loadNextCharacters() {
+    override suspend fun loadNextEpisodes() {
         nextDataNeededEvents.emit(Unit)
-    }
-
-    override fun getCharacter(id: Int) = flow {
-        val character = charactersCache.getOrPut(key = id) {
-            mapper.mapResponseToCharacter(apiService.getCharacter(id))
-        }
-        emit(character)
-    }.map {
-        OperationResult.Success(data = it) as OperationResult<Character>
-    }.retry(2) {
-        delay(RETRY_TIMEOUT_MILLS)
-        true
-    }.catch {
-        emit(OperationResult.Failure(it))
     }
 
     override fun getEpisodesByIds(ids: List<String>) = flow {
