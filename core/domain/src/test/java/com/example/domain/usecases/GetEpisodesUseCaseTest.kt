@@ -1,6 +1,6 @@
 package com.example.domain.usecases
 
-import com.example.domain.repository.RickAndMortyRepository
+import com.example.domain.repository.EpisodesRepository
 import com.example.model.Episode
 import com.example.model.OperationResult
 import io.mockk.coEvery
@@ -20,13 +20,13 @@ import java.util.stream.Stream
 
 class GetEpisodesUseCaseTest {
 
-    private lateinit var repositoryMock: RickAndMortyRepository
-    private lateinit var getEpisodesUseCaseMock: GetEpisodesUseCase
+    private lateinit var repositoryMock: EpisodesRepository
+    private lateinit var getCharacterEpisodesUseCaseMock: GetCharacterEpisodesUseCase
 
     @BeforeEach
     fun setUp() {
-        repositoryMock = mockk<RickAndMortyRepository>()
-        getEpisodesUseCaseMock = GetEpisodesUseCase(repositoryMock)
+        repositoryMock = mockk<EpisodesRepository>()
+        getCharacterEpisodesUseCaseMock = GetCharacterEpisodesUseCase(repositoryMock)
     }
 
     @Test
@@ -45,7 +45,7 @@ class GetEpisodesUseCaseTest {
                 )
             )
 
-            getEpisodesUseCaseMock(urls).collect {
+            getCharacterEpisodesUseCaseMock(urls).collect {
                 assertTrue(it is OperationResult.Success)
                 assertEquals(episodesMock, (it as OperationResult.Success).data)
             }
@@ -59,7 +59,7 @@ class GetEpisodesUseCaseTest {
         inputUrls: List<String>
     ) =
         runTest {
-            val result = getEpisodesUseCaseMock(inputUrls).toList()
+            val result = getCharacterEpisodesUseCaseMock(inputUrls).toList()
             assertTrue(
                 result.isEmpty(),
                 "Flow should be empty for input: $inputUrls"
