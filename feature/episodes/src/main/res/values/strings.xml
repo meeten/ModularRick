@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="all_episodes">All Episodes</string>
+    <string name="season">Season %1$d</string>
+    <string name="unique_characters">%1$d unique characters</string>
+</resources>
