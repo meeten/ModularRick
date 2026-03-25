@@ -25,7 +25,7 @@ import com.example.model.CharacterStatus
 import com.example.ui.character.CharacterImage
 import com.example.ui.character.CharacterNameText
 import com.example.ui.preview.ALIVE_STATUS_NAME
-import com.example.ui.preview.BACKGROUND_COLOR
+import com.example.ui.preview.BACKGROUND_BLACK
 import com.example.ui.preview.DEAD_STATUS_NAME
 import com.example.ui.preview.SHOW_BACKGROUND
 import com.example.ui.preview.UNKNOWN_STATUS_NAME
@@ -104,7 +104,7 @@ private val fieldInfoPreview = listOf(
 
 @Preview(
     name = ALIVE_STATUS_NAME,
-    backgroundColor = BACKGROUND_COLOR,
+    backgroundColor = BACKGROUND_BLACK,
     showBackground = SHOW_BACKGROUND
 )
 @Composable
@@ -125,7 +125,7 @@ private fun CharacterDetailContentWithAliveStatusPreview() {
 
 @Preview(
     name = DEAD_STATUS_NAME,
-    backgroundColor = BACKGROUND_COLOR,
+    backgroundColor = BACKGROUND_BLACK,
     showBackground = SHOW_BACKGROUND
 )
 @Composable
@@ -146,7 +146,7 @@ private fun CharacterDetailContentWithDeadStatusPreview() {
 
 @Preview(
     name = UNKNOWN_STATUS_NAME,
-    backgroundColor = BACKGROUND_COLOR,
+    backgroundColor = BACKGROUND_BLACK,
     showBackground = SHOW_BACKGROUND
 )
 @Composable
