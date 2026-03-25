@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.character.CharacterDetailScreen
 import com.example.designsystem.theme.RickAndMortyAppTheme
+import com.example.character_episodes.CharacterEpisodesScreen
 import com.example.episodes.EpisodesScreen
 import com.example.home.HomeScreen
 import com.example.rickandmortyapp.navigation.NavGraphApplication
@@ -65,14 +66,14 @@ class MainActivity : ComponentActivity() {
                             },
 
                             characterEpisodesScreenContent = { character ->
-                                EpisodesScreen(
+                                CharacterEpisodesScreen(
                                     character = character,
                                     onClickBack = {
                                         viewModel.onButtonClick { navigationState.navController.popBackStack() }
                                     })
                             },
                             allEpisodesScreenContent = {
-                                MockContentScreen(title = "Episodes")
+                                EpisodesScreen()
                             },
                             searchScreenContent = {
                                 MockContentScreen(title = "Search")
