@@ -32,11 +32,11 @@ class HomeViewModel @Inject constructor(
                 HomeScreenState.Error(description = throwable.message ?: "Unknown error")
             }
         )
-        .combine(isLoadNextDataFlow) { state, isLoadNextDataFlow ->
+        .combine(isLoadNextDataFlow) { state, isLoadNextData ->
             if (state is HomeScreenState.Characters) {
                 state.copy(
                     characters = state.characters,
-                    isLoadNextData = isLoadNextDataFlow
+                    isLoadNextData = isLoadNextData
                 )
             } else {
                 state
