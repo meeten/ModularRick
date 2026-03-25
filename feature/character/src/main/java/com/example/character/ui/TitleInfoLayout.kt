@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.designsystem.theme.RickAndMortyAppTheme
-import com.example.ui.preview.BACKGROUND_COLOR
+import com.example.ui.preview.BACKGROUND_BLACK
 import com.example.ui.preview.SHOW_BACKGROUND
 
 @Composable
@@ -31,7 +31,7 @@ internal fun TitleInfoLayout(
 }
 
 @Preview(
-    backgroundColor = BACKGROUND_COLOR,
+    backgroundColor = BACKGROUND_BLACK,
     showBackground = SHOW_BACKGROUND
 )
 @Composable

@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.Character
 import com.example.ui.loading.Loading
-import com.example.ui.preview.BACKGROUND_COLOR
+import com.example.ui.preview.BACKGROUND_BLACK
 import com.example.ui.preview.SHOW_BACKGROUND
 import com.example.ui.preview.charactersPreview
 import com.example.ui.preview.model.CharacterPreview
@@ -73,7 +73,7 @@ fun CharactersContent(
 }
 
 @Preview(
-    backgroundColor = BACKGROUND_COLOR,
+    backgroundColor = BACKGROUND_BLACK,
     showBackground = SHOW_BACKGROUND
 )
 @Composable

@@ -16,7 +16,7 @@ import com.example.designsystem.theme.RickAndMortyAppTheme
 import com.example.model.CharacterStatus
 import com.example.ui.extension.color
 import com.example.ui.preview.ALIVE_STATUS_NAME
-import com.example.ui.preview.BACKGROUND_COLOR
+import com.example.ui.preview.BACKGROUND_BLACK
 import com.example.ui.preview.DEAD_STATUS_NAME
 import com.example.ui.preview.SHOW_BACKGROUND
 import com.example.ui.preview.UNKNOWN_STATUS_NAME
@@ -44,7 +44,7 @@ internal fun CharacterStatusCard(
 
 @Preview(
     name = ALIVE_STATUS_NAME,
-    backgroundColor = BACKGROUND_COLOR,
+    backgroundColor = BACKGROUND_BLACK,
     showBackground = SHOW_BACKGROUND
 )
 @Composable
@@ -58,7 +58,7 @@ private fun CharacterStatusAliveCardPreview() {
 
 @Preview(
     name = DEAD_STATUS_NAME,
-    backgroundColor = BACKGROUND_COLOR,
+    backgroundColor = BACKGROUND_BLACK,
     showBackground = SHOW_BACKGROUND
 )
 @Composable
@@ -72,7 +72,7 @@ private fun CharacterStatusDeadCardPreview() {
 
 @Preview(
     name = UNKNOWN_STATUS_NAME,
-    backgroundColor = BACKGROUND_COLOR,
+    backgroundColor = BACKGROUND_BLACK,
     showBackground = SHOW_BACKGROUND
 )
 @Composable

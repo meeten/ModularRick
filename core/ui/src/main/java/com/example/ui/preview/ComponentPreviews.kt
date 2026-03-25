@@ -5,7 +5,8 @@ import com.example.ui.R
 import com.example.ui.preview.model.CharacterPreview
 
 //preview property for @Preview
-const val BACKGROUND_COLOR = 0xFF000000
+const val BACKGROUND_BLACK = 0xFF000000
+const val BACKGROUND_BLUE_GRAY = 0xFF252d39
 const val SHOW_BACKGROUND = true
 
 //character status name for @Preview
@@ -16,7 +17,8 @@ const val UNKNOWN_STATUS_NAME = "Unknown status"
 //characters
 val charactersPreview = (0..5).map { index ->
     val baseNames = listOf("Rick Sanchez", "Shnoopy Bloopers", "Bootleg Portal Chemist Rick")
-    val images = listOf(R.drawable.img_preview_1, R.drawable.img_preview_2, R.drawable.img_preview_3)
+    val images =
+        listOf(R.drawable.img_preview_1, R.drawable.img_preview_2, R.drawable.img_preview_3)
     val statuses = listOf(CharacterStatus.ALIVE, CharacterStatus.DEAD, CharacterStatus.UNKNOWN)
 
     CharacterPreview(
