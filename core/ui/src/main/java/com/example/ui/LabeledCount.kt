@@ -1,4 +1,4 @@
-package com.example.episodes.ui
+package com.example.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,10 +7,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.designsystem.theme.RickAndMortyAppTheme
+import com.example.ui.preview.BACKGROUND_BLUE_GRAY
+import com.example.ui.preview.SHOW_BACKGROUND
 
 @Composable
-internal fun LabeledCount(
+fun LabeledCount(
     firstLabel: String,
     secondLabel: String,
     modifier: Modifier = Modifier
@@ -29,6 +33,20 @@ internal fun LabeledCount(
             text = secondLabel,
             color = Color.White,
             style = MaterialTheme.typography.titleLarge
+        )
+    }
+}
+
+@Preview(
+    backgroundColor = BACKGROUND_BLUE_GRAY,
+    showBackground = SHOW_BACKGROUND
+)
+@Composable
+fun LabeledCountPreview() {
+    RickAndMortyAppTheme {
+        LabeledCount(
+            firstLabel = "Episode",
+            secondLabel = "20"
         )
     }
 }

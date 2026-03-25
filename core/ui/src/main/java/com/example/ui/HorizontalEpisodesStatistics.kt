@@ -1,8 +1,7 @@
-package com.example.episodes.ui
+package com.example.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -11,13 +10,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.episodes.R
-import com.example.model.Episode
+import com.example.designsystem.theme.RickAndMortyAppTheme
+import com.example.ui.preview.BACKGROUND_BLUE_GRAY
+import com.example.ui.preview.SHOW_BACKGROUND
 
 @Composable
-internal fun HorizontalEpisodesStatistics(
-    episode: Episode,
+fun HorizontalEpisodesStatistics(
+    episodeNumber: Int,
+    name: String,
+    airDate: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -25,7 +28,7 @@ internal fun HorizontalEpisodesStatistics(
     ) {
         LabeledCount(
             firstLabel = stringResource(R.string.episode),
-            secondLabel = episode.episodeNumber.toString(),
+            secondLabel = "$episodeNumber",
             modifier = Modifier.weight(0.35f)
         )
 
@@ -34,13 +37,28 @@ internal fun HorizontalEpisodesStatistics(
             modifier = Modifier.weight(0.65f)
         ) {
             Text(
-                text = episode.name,
+                text = name,
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.End
             )
 
-            Text(text = episode.airDate)
+            Text(text = airDate)
         }
+    }
+}
+
+@Preview(
+    backgroundColor = BACKGROUND_BLUE_GRAY,
+    showBackground = SHOW_BACKGROUND
+)
+@Composable
+fun HorizontalEpisodesStatisticsPreview() {
+    RickAndMortyAppTheme {
+        HorizontalEpisodesStatistics(
+            episodeNumber = 1,
+            name = "Pilot",
+            airDate = "December 2, 2013",
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
     }
 }
