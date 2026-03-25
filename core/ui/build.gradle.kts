@@ -38,6 +38,7 @@ android {
 dependencies {
 
     implementation(project(":core:model"))
+    implementation(project(":core:designsystem"))
 
     //coil
     implementation("io.coil-kt.coil3:coil-compose:3.3.0")
