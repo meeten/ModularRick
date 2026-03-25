@@ -1,4 +1,4 @@
-package com.example.episodes
+package com.example.character_episodes
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -10,26 +10,26 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.episodes.extension.sortedGroupEpisodesBySeasonNumber
-import com.example.episodes.model.EpisodesScreenState
-import com.example.episodes.ui.EpisodesContent
+import com.example.character_episodes.model.CharacterEpisodesScreenState
+import com.example.character_episodes.ui.EpisodesContent
 import com.example.model.Character
+import com.example.ui.extension.sortedGroupEpisodesBySeasonNumber
 import com.example.ui.loading.Loading
 import com.example.ui.topbar.NavigationIconBack
 import com.example.ui.topbar.TopAppBarCustom
 
 @Composable
-fun EpisodesScreen(
+fun CharacterEpisodesScreen(
     character: Character,
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
 ) {
-    val viewModel: EpisodesViewModel = hiltViewModel()
+    val viewModel: CharacterEpisodesViewModel = hiltViewModel()
     LaunchedEffect(Unit) {
         viewModel.setUrls(character.episode)
     }
     val uiState = viewModel.uiState.collectAsState(
-        initial = EpisodesScreenState.Initial
+        initial = CharacterEpisodesScreenState.Initial
     )
 
     Scaffold(
@@ -43,13 +43,13 @@ fun EpisodesScreen(
     ) {
         Column(modifier = Modifier.padding(it)) {
             when (val currentState = uiState.value) {
-                is EpisodesScreenState.Initial -> {}
+                is CharacterEpisodesScreenState.Initial -> {}
 
-                is EpisodesScreenState.Loading -> {
+                is CharacterEpisodesScreenState.Loading -> {
                     Loading()
                 }
 
-                is EpisodesScreenState.Episodes -> {
+                is CharacterEpisodesScreenState.CharacterEpisodes -> {
                     EpisodesContent(
                         characterName = character.name,
                         imageUrl = character.imageUrl,
@@ -58,7 +58,7 @@ fun EpisodesScreen(
                     )
                 }
 
-                is EpisodesScreenState.Error -> {
+                is CharacterEpisodesScreenState.Error -> {
                     Text(text = currentState.errorDescription)
                 }
             }

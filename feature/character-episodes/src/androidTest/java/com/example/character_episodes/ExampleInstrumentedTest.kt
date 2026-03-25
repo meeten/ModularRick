@@ -1,4 +1,4 @@
-package com.example.episodes
+package com.example.character_episodes
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

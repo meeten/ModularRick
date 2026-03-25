@@ -1,4 +1,4 @@
-package com.example.episodes.ui
+package com.example.character_episodes.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,13 +11,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.episodes.R
+import com.example.character_episodes.R
 
 @Composable
-internal fun StickySectionHeader(
+fun StickySectionHeader(
     seasonNumber: Int,
     modifier: Modifier = Modifier
 ) {

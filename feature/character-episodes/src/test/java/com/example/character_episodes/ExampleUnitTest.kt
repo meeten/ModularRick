@@ -1,4 +1,4 @@
-package com.example.episodes
+package com.example.character_episodes
 
 import org.junit.Test
 

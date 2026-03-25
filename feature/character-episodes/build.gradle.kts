@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.episodes"
+    namespace = "com.example.character_episodes"
     compileSdk {
         version = release(36)
     }
@@ -52,6 +52,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.57.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation(libs.core.ktx)
+    implementation(libs.androidx.camera.camera2.pipe)
     ksp("com.google.dagger:hilt-compiler:2.57.1")
 
     implementation(libs.androidx.core.ktx)

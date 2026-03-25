@@ -1,5 +1,6 @@
-package com.example.episodes.ui
+package com.example.character_episodes.ui
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.model.Episode
+import com.example.ui.HorizontalEpisodesStatistics
 import com.example.ui.character.CharacterImage
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -41,18 +43,16 @@ internal fun EpisodesContent(
             )
         }
 
-        groupedEpisodes.keys.forEach { seasonNumber ->
-            stickyHeader {
-                StickySectionHeader(
-                    seasonNumber = seasonNumber
-                )
-            }
+        groupedEpisodes.forEach { (seasonNumber, episodes) ->
+            Log.d("EpisodesContent", "$seasonNumber")
+            stickyHeader { StickySectionHeader(seasonNumber = seasonNumber) }
 
-            items(
-                groupedEpisodes.getOrDefault(
-                    seasonNumber, emptyList()
-                ), key = { it.id }) { episode ->
-                HorizontalEpisodesStatistics(episode = episode)
+            items(items = episodes, key = { it.id }) { episode ->
+                HorizontalEpisodesStatistics(
+                    episodeNumber = episode.episodeNumber,
+                    name = episode.name,
+                    airDate = episode.airDate
+                )
             }
         }
     }

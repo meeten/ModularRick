@@ -1,4 +1,4 @@
-package com.example.episodes.ui
+package com.example.character_episodes.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

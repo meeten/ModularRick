@@ -1,4 +1,4 @@
-package com.example.episodes.ui
+package com.example.character_episodes.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,8 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.episodes.R
+import com.example.character_episodes.R
 import com.example.model.Episode
+import com.example.ui.LabeledCount
 
 @Composable
 internal fun VerticalEpisodesStatistics(
