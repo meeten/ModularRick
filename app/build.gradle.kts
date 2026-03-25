@@ -51,8 +51,9 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:model"))
     implementation(project(":feature:home"))
-    implementation(project(":feature:character"))
     implementation(project(":feature:episodes"))
+    implementation(project(":feature:character"))
+    implementation(project(":feature:character-episodes"))
 
     //navigation-compose
     implementation("androidx.navigation:navigation-compose:2.9.7")
