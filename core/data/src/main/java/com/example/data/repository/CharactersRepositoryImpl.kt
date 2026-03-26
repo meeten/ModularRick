@@ -1,20 +1,13 @@
 package com.example.data.repository
 
+import com.example.data.base.BasePagingRepository
+import com.example.data.base.PageResult
 import com.example.data.mapper.RickAndMortyMapper
 import com.example.domain.repository.CharactersRepository
 import com.example.model.Character
-import com.example.model.OperationResult
 import com.example.network.ApiService
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.retry
-import kotlinx.coroutines.flow.retryWhen
-import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,80 +16,32 @@ class CharactersRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val mapper: RickAndMortyMapper,
     coroutineScope: CoroutineScope,
-) : CharactersRepository {
+) : BasePagingRepository<Character>(coroutineScope), CharactersRepository {
 
-    private val nextDataNeededEvents = MutableSharedFlow<Unit>(replay = 1)
-
-    private val charactersCache = mutableMapOf<Int, Character>()
-    private var nextFrom: String? = null
-    private val loadedCharacters = flow<List<Character>> {
-        nextDataNeededEvents.emit(Unit)
-        nextDataNeededEvents.collect {
-            val startFrom = nextFrom
-            if (startFrom == null && charactersCache.isNotEmpty()) {
-                emit(charactersCache.values.toList())
-                return@collect
-            }
-
-            val response = if (startFrom == null) {
-                apiService.getCharacters()
-            } else {
-                apiService.getCharacters(fullUrl = startFrom)
-            }
-
-            nextFrom = response.infoDto.nextPageUrl
-            val result = mapper.mapResponseToCharacters(response)
-            result.forEach { character ->
-                charactersCache[character.id] = character
-            }
-            emit(charactersCache.values.toList())
+    override suspend fun fetchUrl(url: String?): PageResult<Character> {
+        val response = if (url == null) {
+            apiService.getCharacters()
+        } else {
+            apiService.getCharacters(fullUrl = url)
         }
-    }
-
-    override val charactersData = loadedCharacters
-        .map { OperationResult.Success(it) as OperationResult<List<Character>> }
-        .retryWhen { cause, attempt ->
-            if ((cause as? retrofit2.HttpException)?.code() == TOO_MANY_REQUEST_CODE) {
-                delay(RETRY_TIMEOUT_MILLS)
-                return@retryWhen true
-            }
-
-            val shouldRetry = attempt < MAX_ATTEMPTS
-            if (shouldRetry) {
-                delay(RETRY_TIMEOUT_MILLS)
-            }
-            shouldRetry
+        val characters = mapper.mapResponseToCharacters(response)
+        characters.forEach { character ->
+            dataCache[character.id] = character
         }
-        .catch {
-            emit(OperationResult.Failure(it))
-        }.stateIn(
-            scope = coroutineScope,
-            started = SharingStarted.Lazily,
-            initialValue = OperationResult.Success(emptyList())
+        return PageResult(
+            items = characters,
+            nextUrl = response.infoDto.nextPageUrl
         )
-
-
-    override suspend fun loadNextCharacters() {
-        nextDataNeededEvents.emit(Unit)
     }
+
+    override val charactersData = data
+
+    override suspend fun loadNextCharacters() = loadNextData()
 
     override fun getCharacter(id: Int) = flow {
-        val character = charactersCache.getOrPut(key = id) {
+        val character = dataCache.getOrPut(key = id) {
             mapper.mapResponseToCharacter(apiService.getCharacter(id))
         }
         emit(character)
-    }.map {
-        OperationResult.Success(data = it) as OperationResult<Character>
-    }.retry(2) {
-        delay(RETRY_TIMEOUT_MILLS)
-        true
-    }.catch {
-        emit(OperationResult.Failure(it))
-    }
-
-    companion object {
-        const val TOO_MANY_REQUEST_CODE = 429
-        const val MAX_ATTEMPTS = 3
-        const val RETRY_TIMEOUT_MILLS = 3000L
-    }
+    }.asOperationResultFlow()
 }
