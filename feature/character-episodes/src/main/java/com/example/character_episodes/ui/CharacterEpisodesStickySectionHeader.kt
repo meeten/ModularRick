@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.character_episodes.R
 
 @Composable
-fun StickySectionHeader(
+internal fun CharacterEpisodesStickySectionHeader(
     seasonNumber: Int,
     modifier: Modifier = Modifier
 ) {

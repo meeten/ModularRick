@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.example.episodes.R
 
 @Composable
-fun StickySectionHeader(
+internal fun EpisodesStickySectionHeader(
     episodeNumber: Int,
     uniqueCharactersCounts: IntArray,
     modifier: Modifier = Modifier

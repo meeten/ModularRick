@@ -45,7 +45,7 @@ internal fun EpisodesContent(
 
         groupedEpisodes.forEach { (seasonNumber, episodes) ->
             Log.d("EpisodesContent", "$seasonNumber")
-            stickyHeader { StickySectionHeader(seasonNumber = seasonNumber) }
+            stickyHeader { CharacterEpisodesStickySectionHeader(seasonNumber = seasonNumber) }
 
             items(items = episodes, key = { it.id }) { episode ->
                 HorizontalEpisodesStatistics(

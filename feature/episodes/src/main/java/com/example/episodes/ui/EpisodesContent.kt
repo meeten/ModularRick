@@ -20,9 +20,9 @@ fun EpisodesContent(
     onLoadNextData: () -> Unit
 ) {
     LazyColumn(modifier = modifier) {
-        groupEpisodes.forEach { (episodeNumber, episodes) ->
+        groupEpisodes.forEach { (seasonNumber, episodes) ->
             stickyHeader {
-                StickySectionHeader(episodeNumber, uniqueCharactersCounts)
+                EpisodesStickySectionHeader(seasonNumber, uniqueCharactersCounts)
             }
 
             items(items = episodes, key = { it.id }) { episode ->
