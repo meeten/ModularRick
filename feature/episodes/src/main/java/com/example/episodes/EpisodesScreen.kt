@@ -12,7 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.episodes.model.EpisodesScreenState
 import com.example.episodes.ui.EpisodesContent
 import com.example.ui.extension.sortedGroupEpisodesBySeasonNumber
-import com.example.ui.extension.uniqueCharactersEpisodes
+import com.example.ui.extension.uniqueCharactersCountPerSeason
 import com.example.ui.loading.Loading
 import com.example.ui.topbar.TopAppBarCustom
 
@@ -39,7 +39,7 @@ fun EpisodesScreen(
                     val groupEpisodes = currentState.episodes.sortedGroupEpisodesBySeasonNumber()
                     EpisodesContent(
                         groupEpisodes = groupEpisodes,
-                        uniqueCharactersCounts = groupEpisodes.uniqueCharactersEpisodes(),
+                        uniqueCharactersCounts = groupEpisodes.uniqueCharactersCountPerSeason(),
                         isLoadNextData = currentState.isLoadNextData,
                         modifier = Modifier.padding(16.dp)
                     ) {

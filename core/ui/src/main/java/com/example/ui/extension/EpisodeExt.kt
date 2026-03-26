@@ -7,16 +7,13 @@ fun List<Episode>.sortedGroupEpisodesBySeasonNumber(): Map<Int, List<Episode>> {
         .groupBy { it.seasonNumber }
 }
 
-fun Map<Int, List<Episode>>.uniqueCharactersEpisodes(): IntArray {
-    val result = IntArray(this.keys.size + 1)
-    for (i in 0 until result.size) {
-        val uniqueCharacters = mutableSetOf<String>()
-        this[i]?.forEach { episode ->
-            episode.characters.forEach {
-                uniqueCharacters.add(it)
-            }
-        }
-        result[i] += uniqueCharacters.size
+fun Map<Int, List<Episode>>.uniqueCharactersCountPerSeason(): IntArray {
+    val maxSeasonNumber = keys.maxOrNull() ?: return IntArray(0)
+
+    return IntArray(maxSeasonNumber + 1) {
+        this[it]
+            ?.flatMap { episode -> episode.characters }
+            ?.distinct()
+            ?.size ?: 0
     }
-    return result
 }
