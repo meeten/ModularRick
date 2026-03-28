@@ -24,7 +24,8 @@ class EpisodesViewModel @Inject constructor(
     val uiState = getEpisodesUseCase()
         .mapToScreenState(
             onSuccess = {
-                EpisodesScreenState.Episodes(it)
+                if (it.isEmpty()) EpisodesScreenState.Loading
+                else EpisodesScreenState.Episodes(it)
             },
             onError = {
                 EpisodesScreenState.Error(
