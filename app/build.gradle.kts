@@ -52,6 +52,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":feature:home"))
     implementation(project(":feature:episodes"))
+    implementation(project(":feature:search"))
     implementation(project(":feature:character"))
     implementation(project(":feature:character-episodes"))
 
