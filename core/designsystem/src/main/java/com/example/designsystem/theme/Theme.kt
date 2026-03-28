@@ -9,11 +9,16 @@ val DarkColorScheme = darkColorScheme(
     primary = lightBlue,
     surface = surfaceBackground,
     surfaceContainer = surfaceBackground,
+    tertiary = Color.Red,
     background = surfaceBackground,
+    primaryContainer = Color.White,
     outline = Color.White,
 
     onPrimary = lightBlue,
-    onBackground = Color.White
+    onSecondary = Color.Black,
+    onTertiary = Color.Red,
+    onBackground = Color.White,
+    onPrimaryContainer = Color.Black,
 )
 
 @Composable
