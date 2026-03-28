@@ -9,7 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.home.model.HomeScreenState
-import com.example.home.ui.CharactersContent
+import com.example.ui.character.CharactersContent
 import com.example.ui.loading.Loading
 import com.example.ui.topbar.TopAppBarCustom
 
