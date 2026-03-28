@@ -38,7 +38,6 @@ internal fun SearchBarCustom(
     }
 
     var query by rememberSaveable { mutableStateOf("") }
-    var isQuery by remember { mutableStateOf(false) }
 
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -52,7 +51,6 @@ internal fun SearchBarCustom(
             value = query,
             onValueChange = {
                 query = it
-                isQuery = true
                 onSearch(it)
             },
             colors = OutlinedTextFieldDefaults.colors(
@@ -70,13 +68,12 @@ internal fun SearchBarCustom(
             }
         )
 
-        if (isQuery) {
+        if (query.isNotBlank()) {
             Icon(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .clickable {
                         query = ""
-                        isQuery = false
                         onSearch(query)
                     },
                 painter = painterResource(R.drawable.delete_48px),
@@ -94,6 +91,6 @@ internal fun SearchBarCustom(
 @Composable
 fun SearchBarCustomPreview() {
     RickAndMortyAppTheme {
-        SearchBarCustom() { }
+        SearchBarCustom { }
     }
 }
