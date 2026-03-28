@@ -6,6 +6,7 @@ import com.example.model.EpisodeDto
 import com.example.model.EpisodesResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface ApiService {
@@ -23,6 +24,11 @@ interface ApiService {
 
     @GET("episode")
     suspend fun getEpisodes(): EpisodesResponseDto
+
+    @GET("character")
+    suspend fun getCharactersByName(
+        @Query("name") characterName: String
+    ): CharactersResponseDto
 
     @GET
     suspend fun getEpisodes(@Url fullUrl: String): EpisodesResponseDto

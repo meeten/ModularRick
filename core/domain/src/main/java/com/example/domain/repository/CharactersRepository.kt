@@ -11,5 +11,7 @@ interface CharactersRepository {
 
     suspend fun loadNextCharacters()
 
+    fun getCharactersByName(name: String): Flow<OperationResult<List<Character>>>
+
     fun getCharacter(id: Int): Flow<OperationResult<Character>>
 }

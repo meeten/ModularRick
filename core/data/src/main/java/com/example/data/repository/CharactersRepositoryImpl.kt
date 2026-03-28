@@ -38,6 +38,12 @@ class CharactersRepositoryImpl @Inject constructor(
 
     override suspend fun loadNextCharacters() = loadNextData()
 
+    override fun getCharactersByName(name: String) = flow {
+        val response = apiService.getCharactersByName(name)
+        val characters = mapper.mapResponseToCharacters(response)
+        emit(characters)
+    }.asOperationResultFlow()
+
     override fun getCharacter(id: Int) = flow {
         val character = dataCache.getOrPut(key = id) {
             mapper.mapResponseToCharacter(apiService.getCharacter(id))
