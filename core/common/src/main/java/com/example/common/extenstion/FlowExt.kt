@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.common.extenstion
 
 import com.example.model.OperationResult
 import kotlinx.coroutines.flow.Flow

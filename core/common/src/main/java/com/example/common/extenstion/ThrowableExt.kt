@@ -1,15 +1,15 @@
-package com.example.ui.extension
+package com.example.common.extenstion
 
 import java.net.UnknownHostException
 
 fun Throwable.getFriendlyMessage(): String {
-    when (this) {
+    return when (this) {
         is UnknownHostException -> {
-            return "No internet connection"
+            "No internet connection"
         }
 
         else -> {
-            return "Something went wrong"
+            "Something went wrong"
         }
     }
 }
