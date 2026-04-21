@@ -3,23 +3,24 @@ package com.example.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.home.model.HomeScreenState
 import com.example.ui.character.CharactersContent
-import com.example.ui.loading.Loading
+import com.example.ui.pagination.PaginationScreen
+import com.example.ui.pagination.model.PaginatingStateScreen
 import com.example.ui.topbar.TopAppBarCustom
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
     onClickCharacter: (Int) -> Unit,
 ) {
-    val viewModel: HomeViewModel = hiltViewModel()
-    val uiState = viewModel.uiState.collectAsState(initial = HomeScreenState.Loading)
+    val uiState = viewModel.uiState.collectAsState(
+        initial = PaginatingStateScreen.Loading
+    ).value
 
     Scaffold(
         modifier = modifier,
@@ -28,23 +29,13 @@ fun HomeScreen(
         Column(
             modifier = Modifier.padding(it)
         ) {
-            when (val currentState = uiState.value) {
-                is HomeScreenState.Loading -> {
-                    Loading()
-                }
-
-                is HomeScreenState.Characters -> {
-                    CharactersContent(
-                        characters = currentState.characters,
-                        isLoadNextData = currentState.isLoadNextData,
-                        loadNextData = { viewModel.loadNextData() },
-                        onClickCharacter = onClickCharacter
-                    )
-                }
-
-                is HomeScreenState.Error -> {
-                    Text(text = currentState.description)
-                }
+            PaginationScreen(uiState) { currentState ->
+                CharactersContent(
+                    characters = currentState.items,
+                    isLoadNextData = currentState.isLoadNextData,
+                    loadNextData = { viewModel.loadNextCharacters() },
+                    onClickCharacter = onClickCharacter
+                )
             }
         }
     }
