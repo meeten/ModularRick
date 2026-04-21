@@ -1,6 +1,6 @@
 package com.example.home
 
-    import com.example.domain.usecases.GetCharactersUseCase
+import com.example.domain.usecases.GetCharactersUseCase
 import com.example.domain.usecases.LoadNextCharactersUseCase
 import com.example.ui.pagination.PaginatingViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

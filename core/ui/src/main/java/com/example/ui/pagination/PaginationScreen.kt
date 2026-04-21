@@ -1,6 +1,5 @@
 package com.example.ui.pagination
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.example.ui.loading.Loading
 import com.example.ui.pagination.model.PaginatingStateScreen
@@ -8,6 +7,7 @@ import com.example.ui.pagination.model.PaginatingStateScreen
 @Composable
 fun <T> PaginationScreen(
     uiState: PaginatingStateScreen<T>,
+    handlerError: (Throwable) -> Unit,
     content: @Composable (PaginatingStateScreen.Data<T>) -> Unit
 ) {
     when (uiState) {
@@ -20,7 +20,7 @@ fun <T> PaginationScreen(
         }
 
         is PaginatingStateScreen.Error -> {
-            Text(text = uiState.message)
+            handlerError(uiState.throwable)
         }
     }
 }

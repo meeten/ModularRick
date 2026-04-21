@@ -40,7 +40,7 @@ abstract class BasePagingRepository<T>(
     }
 
     protected val data: StateFlow<OperationResult<List<T>>> = loadedData
-        .map { OperationResult.Success(it) }
+        .map { OperationResult.Success(it) as OperationResult<List<T>> }
         .retryWhen { cause, attempt ->
             if ((cause as? HttpException)?.code() == TOO_MANY_REQUEST_CODE) {
                 delay(RETRY_TIMEOUT_MILLS)
@@ -51,6 +51,9 @@ abstract class BasePagingRepository<T>(
                 delay(RETRY_TIMEOUT_MILLS)
             }
             shouldRetry
+        }
+        .catch { throwable ->
+            emit(OperationResult.Failure(throwable))
         }
         .stateIn(
             scope = coroutineScope,

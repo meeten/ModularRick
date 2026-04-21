@@ -17,9 +17,9 @@ import com.example.ui.topbar.TopAppBarCustom
 
 @Composable
 fun EpisodesScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: EpisodesViewModel = hiltViewModel()
 ) {
-    val viewModel: EpisodesViewModel = hiltViewModel()
     val uiState = viewModel.uiState
         .collectAsState(initial = PaginatingStateScreen.Loading).value
 
@@ -30,17 +30,20 @@ fun EpisodesScreen(
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
-            PaginationScreen(uiState) { currentState ->
-                val groupEpisodes = currentState.items.sortedGroupEpisodesBySeasonNumber()
-                EpisodesContent(
-                    groupEpisodes = groupEpisodes,
-                    uniqueCharactersCounts = groupEpisodes.uniqueCharactersCountPerSeason(),
-                    isLoadNextData = currentState.isLoadNextData,
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    viewModel.loadNextEpisodes()
-                }
-            }
+            PaginationScreen(
+                uiState = uiState,
+                handlerError = {},
+                content = { data ->
+                    val groupEpisodes = data.items.sortedGroupEpisodesBySeasonNumber()
+                    EpisodesContent(
+                        groupEpisodes = groupEpisodes,
+                        uniqueCharactersCounts = groupEpisodes.uniqueCharactersCountPerSeason(),
+                        isLoadNextData = data.isLoadNextData,
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        viewModel.loadNextEpisodes()
+                    }
+                })
         }
     }
 }

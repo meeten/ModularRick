@@ -10,6 +10,6 @@ sealed class PaginatingStateScreen<out T> {
     ) : PaginatingStateScreen<T>()
 
     data class Error(
-        val message: String
+        val throwable: Throwable
     ) : PaginatingStateScreen<Nothing>()
 }

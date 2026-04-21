@@ -1,9 +1,10 @@
 package com.example.ui.pagination
 
-import androidx.lifecycle.ViewModel
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.common.mapToScreenState
 import com.example.model.OperationResult
+import com.example.ui.exception.ExceptionHandlerViewModel
 import com.example.ui.pagination.model.PaginatingStateScreen
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +12,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-abstract class PaginatingViewModel<T> : ViewModel() {
+abstract class PaginatingViewModel<T> : ExceptionHandlerViewModel() {
 
     private val isLoadNextDataFlow = MutableStateFlow(false)
 
@@ -27,8 +28,8 @@ abstract class PaginatingViewModel<T> : ViewModel() {
                         PaginatingStateScreen.Data(items = data)
                     }
                 },
-                onError = {
-                    PaginatingStateScreen.Error(message = it.message ?: "Unknown error")
+                onError = { throwable ->
+                    PaginatingStateScreen.Error(throwable)
                 }
             ).combine(isLoadNextDataFlow) { state, isLoadNextData ->
                 when (state) {
