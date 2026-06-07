@@ -2,7 +2,7 @@ package com.example.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.mapToScreenState
+import com.example.common.extenstion.mapToScreenState
 import com.example.domain.usecases.GetCharactersByNameUseCase
 import com.example.search.model.SearchScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel

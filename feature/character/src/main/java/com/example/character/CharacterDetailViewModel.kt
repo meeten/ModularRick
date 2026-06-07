@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.character.extension.asScreenState
 import com.example.character.models.CharacterDetailScreenState
-import com.example.common.mapToScreenState
+import com.example.common.extenstion.mapToScreenState
 import com.example.domain.usecases.GetDetailCharacterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject

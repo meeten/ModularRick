@@ -1,8 +1,8 @@
 package com.example.ui.pagination
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.common.mapToScreenState
+import com.example.common.exception.GlobalExceptionManager
+import com.example.common.extenstion.mapToScreenState
 import com.example.model.OperationResult
 import com.example.ui.exception.ExceptionHandlerViewModel
 import com.example.ui.pagination.model.PaginatingStateScreen
@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-abstract class PaginatingViewModel<T> : ExceptionHandlerViewModel() {
+abstract class PaginatingViewModel<T>(
+    globalExceptionManager: GlobalExceptionManager
+) : ExceptionHandlerViewModel(globalExceptionManager) {
 
     private val isLoadNextDataFlow = MutableStateFlow(false)
 

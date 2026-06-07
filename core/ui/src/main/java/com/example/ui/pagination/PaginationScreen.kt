@@ -1,6 +1,7 @@
 package com.example.ui.pagination
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import com.example.ui.loading.Loading
 import com.example.ui.pagination.model.PaginatingStateScreen
 
@@ -20,7 +21,9 @@ fun <T> PaginationScreen(
         }
 
         is PaginatingStateScreen.Error -> {
-            handlerError(uiState.throwable)
+            LaunchedEffect(uiState.throwable) {
+                handlerError(uiState.throwable)
+            }
         }
     }
 }

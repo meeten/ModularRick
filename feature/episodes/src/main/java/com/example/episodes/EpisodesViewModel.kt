@@ -1,5 +1,6 @@
 package com.example.episodes
 
+import com.example.common.exception.GlobalExceptionManager
 import com.example.domain.usecases.GetEpisodesUseCase
 import com.example.domain.usecases.LoadNextEpisodesUseCase
 import com.example.model.Episode
@@ -9,9 +10,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EpisodesViewModel @Inject constructor(
+    globalExceptionManager: GlobalExceptionManager,
     getEpisodesUseCase: GetEpisodesUseCase,
-    private val loadNextEpisodesUseCase: LoadNextEpisodesUseCase
-) : PaginatingViewModel<List<Episode>>() {
+    private val loadNextEpisodesUseCase: LoadNextEpisodesUseCase,
+) : PaginatingViewModel<List<Episode>>(globalExceptionManager) {
 
     val uiState = createPaginatingUiState {
         getEpisodesUseCase()

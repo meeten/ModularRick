@@ -1,14 +1,22 @@
 package com.example.rickandmortyapp.ui
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.common.exception.GlobalExceptionManager
+import com.example.ui.exception.ExceptionHandlerViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor() : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    globalExceptionManager: GlobalExceptionManager
+) :
+    ExceptionHandlerViewModel(
+        globalExceptionManager
+    ) {
 
     private val clickMutex = Mutex()
 

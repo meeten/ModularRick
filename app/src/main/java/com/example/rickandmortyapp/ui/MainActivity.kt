@@ -1,23 +1,23 @@
 package com.example.rickandmortyapp.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.character.CharacterDetailScreen
-import com.example.character_episodes.CharacterEpisodesScreen
 import com.example.designsystem.theme.RickAndMortyAppTheme
-import com.example.episodes.EpisodesScreen
-import com.example.home.HomeScreen
-import com.example.rickandmortyapp.navigation.NavGraphApplication
+import com.example.rickandmortyapp.MainScreen
 import com.example.rickandmortyapp.navigation.rememberNavigationState
 import com.example.rickandmortyapp.ui.bottombar.AppNavigationBottomBar
-import com.example.search.SearchScreen
+import com.example.ui.exception.model.ExceptionScreenState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,54 +29,33 @@ class MainActivity : ComponentActivity() {
         setContent {
             val viewModel: MainViewModel = hiltViewModel()
             val navigationState = rememberNavigationState()
+            val snackbarHostState = remember { SnackbarHostState() }
+
+            LaunchedEffect(Unit) {
+                viewModel.globalExceptionManager.exceptionEvents.collect { exception ->
+                    snackbarHostState.currentSnackbarData?.dismiss()
+                    snackbarHostState.showSnackbar(
+                        exception.message,
+                        withDismissAction = true
+                    )
+                }
+            }
 
             RickAndMortyAppTheme {
                 Scaffold(
                     bottomBar = {
                         AppNavigationBottomBar(navigationState = navigationState)
-                    }
+                    },
+                    snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
                 ) {
-                    Column(
-                        modifier = Modifier.padding(
-                            bottom = it.calculateBottomPadding()
-                        )
-                    ) {
-                        NavGraphApplication(
-                            navController = navigationState.navController,
-                            homeScreenContent = {
-                                HomeScreen { characterId ->
-                                    navigationState.navigateToDetailCharacter(characterId)
-                                }
-                            },
-                            detailCharacterScreenContent = { characterId ->
-                                CharacterDetailScreen(
-                                    characterId = characterId,
-                                    onClickBack = {
-                                        viewModel.onButtonClick { navigationState.navController.popBackStack() }
-                                    },
-                                    onViewAllEpisodesClick = { character ->
-                                        navigationState.navigateToEpisodesScreen(character)
-                                    }
-                                )
-                            },
-
-                            characterEpisodesScreenContent = { character ->
-                                CharacterEpisodesScreen(
-                                    character = character,
-                                    onClickBack = {
-                                        viewModel.onButtonClick { navigationState.navController.popBackStack() }
-                                    })
-                            },
-                            allEpisodesScreenContent = {
-                                EpisodesScreen()
-                            },
-                            searchScreenContent = {
-                                SearchScreen()
-                            }
-                        )
-                    }
+                    MainScreen(
+                        navigationState = navigationState,
+                        modifier = Modifier.padding(top = it.calculateTopPadding()),
+                        onClickBack = {
+                            viewModel.onButtonClick { navigationState.navController.popBackStack() }
+                        }
+                    )
                 }
-
             }
         }
     }

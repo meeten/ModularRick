@@ -3,7 +3,7 @@ package com.example.character_episodes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.mapToScreenState
+import com.example.common.extenstion.mapToScreenState
 import com.example.domain.usecases.GetCharacterEpisodesUseCase
 import com.example.character_episodes.extension.asScreenState
 import com.example.character_episodes.model.CharacterEpisodesScreenState

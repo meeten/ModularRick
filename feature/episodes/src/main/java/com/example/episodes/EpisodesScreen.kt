@@ -32,7 +32,9 @@ fun EpisodesScreen(
         Column(modifier = Modifier.padding(it)) {
             PaginationScreen(
                 uiState = uiState,
-                handlerError = {},
+                handlerError = { throwable ->
+                    viewModel.sendErrorEvent(throwable)
+                },
                 content = { data ->
                     val groupEpisodes = data.items.sortedGroupEpisodesBySeasonNumber()
                     EpisodesContent(
